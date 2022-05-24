@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="/sass/custom.css">
+
+    <title>Buscar</title>
+</head>
+<body class="bg-light">
+
+  <main class="container bg-light">
+  
+    <!--    Menú    -->
+    <nav class="navbar navbar-expand-md navbar-light shadow-sm  bg-white">
+      <div class="container-fluid">
+        <a class="navbar-brand text-primary" href="principal.html">Apunteca</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="principal.html">Inicio</a>
+            </li>
+            <!--
+            <li class="nav-item">
+              <a class="nav-link" href="#">Mis documentos</a>
+            </li>           
+           -->
+            <li class="nav-item">
+              <a class="nav-link" href="guardar.html">Guardar</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link active" href="buscar.html">Buscar</a>
+            </li>
+            <!-- 
+            <li class="nav-item">
+              <a class="nav-link" href="#">Mensajes</a>
+            </li>
+            -->
+            <li class="nav-item">
+              <a class="nav-link" href="misDatos.html">Mis Datos</a>
+            </li>
+            <!--
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Desactivado</a>
+            </li>
+            -->
+          </ul>
+  
+            <button class="btn btn-outline-primary" type="button">Salir</button>
+  
+        </div>
+      </div>
+  </nav>
+
+<!-- Contenido -->
+<div class="row justify-content-center align-items-center bg-light mt-5">
+  <div class="col-md-12 shadow-lg bg-white p-4">
+    <!-- Título-->
+    <div class="row justify-content-center">
+      <h1 class="text-primary text-center mb-3">Buscar Documentos</h1>
+    </div>
+
+    <!-- Filtro de documentos -->
+    <form>
+      <div class="row mb-3 justify-content-center">
+        <label for="inputBuscar" class="col-sm-3 col-form-label text-right">Nombre o asignatura</label>
+        <div class="col-sm-7 mb-1">
+          <input type="text" class="form-control bg-light" id="inputBuscar">
+        </div>
+        <div class="col-sm-1">
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+    <!-- Lista de documentos-->
+
+    <!-- Ejemplo de lista de documentos -->
+
+  <div class="row justify-content-center align-items-center bg-light mt-5">
+    <div class="col-md-12 shadow-lg bg-white p-4">
+      <div class="row">
+        <div class="col-sm-9 col-md-10">
+          <div class="row m-1">
+            <div class="col-sm-12 col-lg-11 text-start ">
+              <div class="row">
+                <div class="col-2 text-end overflow-hidden">Nombre</div>
+                <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>FP1 Programación</h5></div>
+              </div>  
+            </div>
+          </div>
+          <div class="row m-1 text-center">
+            <div class="col-2 text-end overflow-hidden ">Fecha</div>
+            <div class="col-3 bg-light shadow-sm m-1">03-01-22</div>
+            <div class="col-4 text-end overflow-hidden">Descargas</div>
+            <div class="col-2 bg-light shadow-sm m-1">27</div>
+          </div>
+          <div class="row m-1">
+            <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+              <div class="row">
+                <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                <div class="col-10 bg-light shadow-sm overflow-hidden">Fundamentos de Programación</div>
+              </div>  
+            </div>
+          </div>
+          <div class="row m-1">
+            <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+              <div class="row">
+                <div class="col-2 text-end overflow-hidden">Centro</div>
+                <div class="col-10 bg-light shadow-sm overflow-hidden">Facultad de Informática UGR Granada</div>
+              </div>  
+            </div>
+          </div>
+          <div class="row m-1">
+            <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+              <div class="row">
+                <div class="col-2 text-end overflow-hidden">Autor/a</div>
+                <div class="col-10 bg-light shadow-sm overflow-hidden">María</div>
+              </div>  
+            </div>
+          </div>
+          <div class="row m-1">
+            <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+              <div class="row">
+                <div class="col-2 text-end overflow-hidden">Descripción</div>
+                <div class="col-10 bg-light shadow-sm overflow-hidden">Es un documento sobre los fundamentos de programación en sdfasdfsdafsda eafasdfasd agfasfdsafasd a gdsfgdsafsda asdgasdfasd</div>
+              </div>  
+            </div>
+          </div>
+        </div>
+        <!-- Botonera -->
+        <div class="col-sm-3 col-md-2 align-items-center">
+          <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
+          <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+        </div>
+      </div>
+  
+      </div>
+    </div>
+
+    <div class="row justify-content-center align-items-center bg-light mt-5">
+      <div class="col-md-12 shadow-lg bg-white p-4">
+        <div class="row">
+          <div class="col-sm-9 col-md-10">
+            <div class="row m-1">
+              <div class="col-sm-12 col-lg-11 text-start ">
+                <div class="row">
+                  <div class="col-2 text-end overflow-hidden">Nombre</div>
+                  <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>FP1 Programación</h5></div>
+                </div>  
+              </div>
+            </div>
+            <div class="row m-1 text-center">
+              <div class="col-2 text-end overflow-hidden ">Fecha</div>
+              <div class="col-3 bg-light shadow-sm m-1">03-01-22</div>
+              <div class="col-4 text-end overflow-hidden">Descargas</div>
+              <div class="col-2 bg-light shadow-sm m-1">27</div>
+            </div>
+            <div class="row m-1">
+              <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                <div class="row">
+                  <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                  <div class="col-10 bg-light shadow-sm overflow-hidden">Fundamentos de Programación</div>
+                </div>  
+              </div>
+            </div>
+            <div class="row m-1">
+              <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                <div class="row">
+                  <div class="col-2 text-end overflow-hidden">Centro</div>
+                  <div class="col-10 bg-light shadow-sm overflow-hidden">Facultad de Informática UGR Granada</div>
+                </div>  
+              </div>
+            </div>
+            <div class="row m-1">
+              <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                <div class="row">
+                  <div class="col-2 text-end overflow-hidden">Autor/a</div>
+                  <div class="col-10 bg-light shadow-sm overflow-hidden">María</div>
+                </div>  
+              </div>
+            </div>
+            <div class="row m-1">
+              <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                <div class="row">
+                  <div class="col-2 text-end overflow-hidden">Descripción</div>
+                  <div class="col-10 bg-light shadow-sm overflow-hidden">Es un documento sobre los fundamentos de programación en sdfasdfsdafsda eafasdfasd agfasfdsafasd a gdsfgdsafsda asdgasdfasd</div>
+                </div>  
+              </div>
+            </div>
+          </div>
+          <!-- Botonera -->
+          <div class="col-sm-3 col-md-2 align-items-center">
+            <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
+            <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+          </div>
+        </div>
+    
+        </div>
+      </div>
+
+      <div class="row justify-content-center align-items-center bg-light mt-5">
+        <div class="col-md-12 shadow-lg bg-white p-4">
+          <div class="row">
+            <div class="col-sm-9 col-md-10">
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Nombre</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>FP1 Programación</h5></div>
+                  </div>  
+                </div>
+              </div>
+              <div class="row m-1 text-center">
+                <div class="col-2 text-end overflow-hidden ">Fecha</div>
+                <div class="col-3 bg-light shadow-sm m-1">03-01-22</div>
+                <div class="col-4 text-end overflow-hidden">Descargas</div>
+                <div class="col-2 bg-light shadow-sm m-1">27</div>
+              </div>
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden">Fundamentos de Programación</div>
+                  </div>  
+                </div>
+              </div>
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Centro</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden">Facultad de Informática UGR Granada</div>
+                  </div>  
+                </div>
+              </div>
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Autor/a</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden">María</div>
+                  </div>  
+                </div>
+              </div>
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Descripción</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden">Es un documento</div>
+                  </div>  
+                </div>
+              </div>
+            </div>
+            <!-- Botonera -->
+            <div class="col-sm-3 col-md-2 align-items-center">
+              <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
+              <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+            </div>
+          </div>
+      
+          </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center bg-light mt-5">
+          <div class="col-md-12 shadow-lg bg-white p-4">
+            <div class="row">
+              <div class="col-sm-9 col-md-10">
+                <div class="row m-1">
+                  <div class="col-sm-12 col-lg-11 text-start ">
+                    <div class="row">
+                      <div class="col-2 text-end overflow-hidden">Nombre</div>
+                      <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>FP1 Programación</h5></div>
+                    </div>  
+                  </div>
+                </div>
+                <div class="row m-1 text-center">
+                  <div class="col-2 text-end overflow-hidden ">Fecha</div>
+                  <div class="col-3 bg-light shadow-sm m-1">03-01-22</div>
+                  <div class="col-4 text-end overflow-hidden">Descargas</div>
+                  <div class="col-2 bg-light shadow-sm m-1">27</div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                    <div class="row">
+                      <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                      <div class="col-10 bg-light shadow-sm overflow-hidden">Fundamentos de Programación</div>
+                    </div>  
+                  </div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                    <div class="row">
+                      <div class="col-2 text-end overflow-hidden">Centro</div>
+                      <div class="col-10 bg-light shadow-sm overflow-hidden">Facultad de Informática UGR Granada</div>
+                    </div>  
+                  </div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                    <div class="row">
+                      <div class="col-2 text-end overflow-hidden">Autor/a</div>
+                      <div class="col-10 bg-light shadow-sm overflow-hidden">María</div>
+                    </div>  
+                  </div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                    <div class="row">
+                      <div class="col-2 text-end overflow-hidden">Descripción</div>
+                      <div class="col-10 bg-light shadow-sm overflow-hidden">Es un documento sobre los fundamentos de programación</div>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+              <!-- Botonera -->
+              <div class="col-sm-3 col-md-2 align-items-center">
+                <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
+                <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+              </div>
+            </div>
+        
+            </div>
+          </div>
+
+  
+  <!--  Otro modelo de búsqueda cosn tabla -->
+  <!--
+  <div class="row justify-content-center align-items-center bg-light mt-5">
+    <div class="col-sm-12 shadow-lg bg-white p-4">
+      <div class="row justify-content-center">
+        <h1 class="text-primary text-center mb-5">BUSCAR DOCUMENTO</h1>
+        <form>
+          <div class="row mb-3 justify-content-center">
+            <label for="inputBuscar" class="col-sm-2 col-form-label">Nombre o asignatura:</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control bg-light" id="inputBuscar">
+            </div>
+            <div class="col-sm-2 d-grid">
+              <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+          </div>
+        </form>
+      <div class="table-responsive">
+        <table class="table table-hover table-borderless">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Asignatura</th>
+            <th>Centro</th>
+            <th>Autor</th>
+            <th class="col-2"></th>
+          </tr>
+        </thead>
+        -->
+        <!-- Tabla de resultados de la búsqueda -->
+        <!--
+        <tbody id="tablaResultados">
+        -->
+
+          <!-- Ejemplos de resultados para pruebas-->
+
+          <!--
+          <tr class="bg-light shadow-sm border">
+            <td>Apuntes programación 1</td>
+            <td>Programación 1</td>
+            <td>UGR Granada</td>
+            <td>Alejandro</td>
+            <td class="col-2">
+              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
+              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
+            </td>
+          </tr>
+          <tr class="bg-light shadow-sm border">
+            <td>Apuntes programación 1</td>
+            <td>Programación 12</td>
+            <td>UMA Málaga</td>
+            <td>Pedro</td>
+            <td class="col-2">
+              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
+              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
+            </td>
+          </tr>
+          <tr class="bg-light shadow-sm border">
+            <td>Texto sobre tablas responsive</td>
+            <td>Programación 1</td>
+            <td>UGR Granada</td>
+            <td>María del Carmen</td>
+            <td class="col-2">
+              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
+              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
+            </td>
+          </tr>
+          <tr class="bg-light shadow-sm border">
+            <td>Apuntes programación 1</td>
+            <td>Programación 1</td>
+            <td>UGR Granada</td>
+            <td>Alejandro</td>
+            <td class="col-2">
+              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
+              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
+            </td>
+          </tr>
+          <tr class="bg-light shadow-sm border">
+            <td>Apuntes programación 1</td>
+            <td>Programación 1</td>
+            <td>UGR Granada</td>
+            <td>Alejandro</td>
+            <td class="col-2">
+              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
+              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
+            </td>
+          </tr>
+          <tr class="bg-light shadow-sm border">
+            <td>Apuntes programación 1</td>
+            <td>Programación 1</td>
+            <td>UGR Granada</td>
+            <td>Alejandro</td>
+            <td class="col-2">
+              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
+              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
+            </td>
+          </tr>
+          <tr class="bg-light shadow-sm border">
+            <td>Apuntes programación 1</td>
+            <td>Programación 1</td>
+            <td>UGR Granada</td>
+            <td>Alejandro</td>
+            <td class="col-2">
+              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
+              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    </div>
+  </div>
+        -->
+
+
+
+<!-- Otra manera de organizar los resultados EN PRUEBA
+
+  <div class="row  justify-content-center align-items-center bg-light mt-5">
+    <div class="col-lg-12 shadow-lg bg-white p-4">
+      <div class="row justify-content-center">
+        <div class="col m-2">
+          <h1 class="text-primary text-center mb-5">BUSCAR DOCUMENTO</h1>
+            <form>
+              <div class="row mb-3 justify-content-center">
+                <label for="inputBuscar" class="col-sm-2 col-form-label">Nombre o asignatura:</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control bg-light" id="inputBuscar">
+                </div>
+                <div class="col-sm-2 d-grid">
+                  <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+              </div>
+            </form>
+            
+            <div>
+
+              <div class="row justify-content-center">
+                <div class="col-3">
+                  <p>Nombre</p>
+                </div>
+                <div class="col-2">
+                  <p>Asignatura</p>
+                </div>
+                <div class="col-2">
+                  <p>Centro</p>
+                </div>
+                <div class="col-2">
+                  <p>Autor/a</p>
+                </div>
+                <div class="col-1">
+                  <p>Descargas</p>
+                </div>
+
+
+                <div class="col-1"> </div>
+
+                <div class="col-1"></div>
+              </div>
+
+
+              <div class="row justify-content-center" id="resultadoBusqueda">
+
+
+                <div class="row bg-light shadow-sm mb-2 mt-2 align-items-center">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-sm-2 m-0 p-0">
+                    <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
+                    <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
+                  </div>
+                </div>
+
+                <div class="row bg-light shadow-sm mb-2 mt-2">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-1">
+                    <button class="btn btn-sm btn-outline-primary">Añadir</button>
+                  </div>
+                  <div class="col-1 ">
+                    <button class="btn btn-sm btn-outline-primary ">Descargar</button>
+                  </div>
+                </div>
+
+                <div class="row bg-light shadow-sm mb-2 mt-2">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-1">
+                    <button class="btn btn-sm btn-outline-primary">Añadir</button>
+                  </div>
+                  <div class="col-1 ">
+                    <button class="btn btn-sm btn-outline-primary ">Descargar</button>
+                  </div>
+                </div>
+                <div class="row bg-light shadow-sm mb-2 mt-2">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-1">
+                    <button class="btn btn-sm btn-outline-primary">Añadir</button>
+                  </div>
+                  <div class="col-1 ">
+                    <button class="btn btn-sm btn-outline-primary ">Descargar</button>
+                  </div>
+                </div>
+
+                <div class="row bg-light shadow-sm mb-2 mt-2">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-1">
+                    <button class="btn btn-sm btn-outline-primary">Añadir</button>
+                  </div>
+                  <div class="col-1 ">
+                    <button class="btn btn-sm btn-outline-primary ">Descargar</button>
+                  </div>
+                </div>
+                
+                <div class="row bg-light shadow-sm mb-2 mt-2">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-1">
+                    <button class="btn btn-sm btn-outline-primary">Añadir</button>
+                  </div>
+                  <div class="col-1 ">
+                    <button class="btn btn-sm btn-outline-primary ">Descargar</button>
+                  </div>
+                </div>
+                <div class="row bg-light shadow-sm mb-2 mt-2">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-1">
+                    <button class="btn btn-sm btn-outline-primary">Añadir</button>
+                  </div>
+                  <div class="col-1 ">
+                    <button class="btn btn-sm btn-outline-primary ">Descargar</button>
+                  </div>
+                </div>
+
+                <div class="row bg-light shadow-sm mb-2 mt-2">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-1">
+                    <button class="btn btn-sm btn-outline-primary">Añadir</button>
+                  </div>
+                  <div class="col-1 ">
+                    <button class="btn btn-sm btn-outline-primary ">Descargar</button>
+                  </div>
+                </div>
+                
+                <div class="row bg-light shadow-sm mb-2 mt-2">
+                  <div class="col-3">
+                    <p>Apuntes prog</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Programación 1</p>
+                  </div>
+                  <div class="col-2">
+                    <p>UGR Granada</p>
+                  </div>
+                  <div class="col-2">
+                    <p>Alejandro</p>
+                  </div>
+                  <div class="col-1">
+                    <p>17</p>
+                  </div>
+                  <div class="col-1">
+                    <button class="btn btn-sm btn-outline-primary">Añadir</button>
+                  </div>
+                  <div class="col-1 ">
+                    <button class="btn btn-sm btn-outline-primary ">Descargar</button>
+                  </div>
+                </div>
+
+
+
+
+
+              </div>
+
+            </div>
+
+        </div>
+        
+
+
+      </div>
+  
+    </div>
+  </div>
+-->
+
+  </main>
+  
+      <!-- Option 1: Bootstrap Bundle with Popper -->
+    
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+  
+  </body>
+  </html>

@@ -1,0 +1,13 @@
+/*! 
+    Las modificaciones de css se añanden antes del import, para que lo modifique 
+    Live Sass Compiler debe estar funcionando para que los cambios se registren en custom.css
+*/
+#fotoPerfil{
+    min-width: 150px;
+    min-height: 150px;
+    max-height: 200px;
+    max-width: 200px;
+}
+
+
+@import "../node_modules/bootstrap/scss/bootstrap";

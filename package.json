@@ -1,0 +1,23 @@
+{
+  "name": "apunteca",
+  "version": "1.0.0",
+  "description": "Apunteca versión página web",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Denko/Apunteca.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Denko/Apunteca/issues"
+  },
+  "homepage": "https://github.com/Denko/Apunteca#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3"
+  }
+}
