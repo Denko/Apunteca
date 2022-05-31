@@ -1,8 +1,0 @@
-<?php
-
-// Clase Apunte
-// TODO
-
-
-
-?>

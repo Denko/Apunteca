@@ -6,12 +6,12 @@
 	$servidor = "localhost";
 
 	//Usuario
-	$usuario = "alexarco_alex";
+	$usuario = "Alex";
 
 	//Password
-	$password = "alex5564";
+	$password = "5564";
 
 	//Base de datos a utilizar
-	$bd ="alexarco_apunteca";
+	$bd ="apunteca";
 
 ?>

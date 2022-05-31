@@ -1,14 +1,11 @@
 <?php
 
-// Control de base de datos
-// Repasar
-
 class ControlBD {
 
     private $servidor = "localhost";
-    private $usuario = "alexarco_alex";
-    private $password = "alex5564";
-    private $bd = "alexarco_apunteca";
+    private $usuario = "Alex";
+    private $password = "5564";
+    private $bd = "apunteca";
     private $conn;
     private $stmt;
     private $array;

@@ -1,9 +1,6 @@
 <?php 
 
- // Clase Conf
-
 	Class Conf{
-
    private $_usuario;
    private $_password;
    private $_servidor;
@@ -49,5 +46,6 @@
    }
 
 }
+
 
 ?>
