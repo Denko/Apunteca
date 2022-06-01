@@ -1,20 +1,30 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
+
 require_once("ControlBD.php");
 require("Conf.php");
 require("Usuario.php");
 
 $bd = ControlBD::getInstance();
 
+$centro = null;
+$estudios = null;
+$comentario = null;
+$imagen = null;
+
 $nombreUsuario = $_POST['inputUsuario'];
 $password = $_POST['inputPassword'];
 $password2 = $_POST['inputPassword2'];
 $nombre = $_POST['inputNombre'];
 $email = $_POST['inputEmail'];
-$imagen = null;
+$imagen = $_FILES['inputImagen'];
 $centro = $_POST['inputCentro'];
 $estudios = $_POST['inputEstudios'];
 $comentario = $_POST['inputComentario'];
+
+echo $nombreUsuario;
 
 //Si se sube una imagen
 if(isset($_FILES['inputImagen'])){
@@ -43,23 +53,32 @@ if(isset($_FILES['inputImagen'])){
         echo "Success";
     }else{
         print_r($errors);
+        $imagen = null;
     }
  }
 
+
 //Comprobamos que el nombre_usuario no coincida con otro
 $usuario = new Usuarios();
+//$usuario->addUsuario($nombreUsuario, $password, $nombre, $email, $imagen, $centro, $estudios, $comentario);
+
+
 if($usuario->existe($nombreUsuario)){
-    echo "el usuario ya existe";
-    return false;
+    //echo "el usuario ya existe";
+    //return false;
+    $response = array("success"=>false, "respuesta"=>"El nombre de usuario ya existe");
 }else{
-    $usuario->addUsuario();
+    //$usuario->addUsuario();
     $query = "INSERT INTO usuarios (nombre_usuario, password, nombre, email, centro, estudios, comentario, imagen) VALUES ('".$nombreUsuario."', '".$password."', '".$nombre."', '".$email."', '".$centro."', '".$estudios."', '".$comentario."', '".$imagen."')";
-    $this->bd->ejecutar($query);
-    echo "Usuario registrado";
-    return true;
+    $bd->ejecutar($query);
+    //echo "Usuario registrado";
+    //return true;
+    //$response = array("success"=>true, "respuesta"=>"Usuario registrado");
+    $response["success"] = true;
+
 }
 
-
+echo json_encode($response);
 
 
 ?>

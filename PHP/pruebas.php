@@ -7,4 +7,4 @@ $bd = ControlBD::getInstance();
 
 $bd->conectarPrueba();
 
-?>
+?> 
