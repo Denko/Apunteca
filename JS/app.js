@@ -1,6 +1,8 @@
 // Número aleatorio para crear el token de cada usuario
 const NUM_TOKEN = 3215646463;
 
+var datosUsuario;
+
 // Usa el cod_usuario para crear un token para la sesión
 function crearToken(cod){
     return cod + NUM_TOKEN;
@@ -11,27 +13,37 @@ function comprobarToken(cod, token){
         return true;
     }
     else{
+        document.cookie = "nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+        document.cookie = "usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+        document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
         window.location.href = "/HTML/login.html";
         return false;
     }
 }
 
 function checkUser() {
-    var user = getCookie("username");
+    var user = getCookie("usuario");
     if (user == "") {
+        cerrarSesion();
+        //goToLogin();
+        goToPage("/HTML/login.html");
+        /*
         user = prompt("Nombe de usuario:", "");
         if (user != "" && user != null) {
-            setCookie("username", user);
-        }
+            setCookie("usuario", user);
+        }*/
     }
-    openSession(user);
+    //openSession(user);
 }
+
 function setCookie(cname, cvalue) {
     var d = new Date();
     d.setTime(d.getTime() + (5*60*1000));
     var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    var path = "path=/";
+    document.cookie = cname + "=" + cvalue + "; " + expires + "; " + path;
 }
+
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -48,7 +60,9 @@ function iniciarSesion() {
 }
 
 function cerrarSesion() {
-    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC"; 
+    document.cookie = "nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/"; 
+    document.cookie = "usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+    document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
     console.log("Su sesión de usuario ha sido cerrada");
     window.location.href = "/HTML/login.html";
 
@@ -56,9 +70,19 @@ function cerrarSesion() {
 
 
 function guardarDatos(datos){
+    datosUsuario = datos;
     console.log(datos);
     console.log(document.getElementById("inputUsuario").value);
 }
+
+function goToLogin() {
+    window.location.href = "HTML/login.html";
+}
+
+function goToPage(page) {
+    window.location.href = page;
+}
+
 
 function login(){
 
@@ -79,12 +103,25 @@ function login(){
         //console.log(result.perfil);
         if(result.success){
           
-          document.cookie = "nombre="+result.perfil.nombre+"; path=/";
-          document.cookie = "usuario="+formLogin.inputUsuario.value+"; path=/";
-          document.cookie = "password="+formLogin.inputPassword.value+"; path=/";
+            /*
+            document.cookie = "nombre="+result.perfil.nombre+"; path=/";
+            document.cookie = "usuario="+formLogin.inputUsuario.value+"; path=/";
+            document.cookie = "password="+formLogin.inputPassword.value+"; path=/";
+            */
+            setCookie("nombre", result.perfil.nombre);
+            var usuario = document.getElementById("inputUsuario").value;
+            var password = document.getElementById("inputPassword").value;
+            setCookie("usuario", usuario);
+            setCookie("password", password);
+
           console.log(document.cookie);
-          guardarDatos(result.perfil)
+          guardarDatos(result.perfil);
           window.location.href = '/HTML/principal.html';
+
+        }else{
+            var errorLogin = "Usuario o contraseña incorrectos";
+            document.getElementById("errorLogin").innerHTML = errorLogin;
+            console.log(getCookie("usuario"));
         }
         //alert(result.success);
       };
