@@ -15,7 +15,9 @@
 <body class="bg-light">
 
   <script>
-    checkUser();
+  if (getCookie("usuario") == "") {
+    window.location.href = "login.html";
+  }
   </script>
 
   <main class="container-md bg-light">

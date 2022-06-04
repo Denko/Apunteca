@@ -8,9 +8,17 @@
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="/sass/custom.css">
 
+     <script type="text/javascript" src="/JS/app.js"></script>
+
     <title>Mis Datos</title>
 </head>
-<body class="bg-light">
+<body class="bg-light" onload="loadMisDatos()">
+
+  <script>
+    if (getCookie("usuario") == "") {
+      window.location.href = "login.html";
+    }
+    </script>
 
   <main class="container bg-light">
     <!--    Menú    -->
@@ -65,7 +73,7 @@
     <div class="row justify-content-center">
       <div class="col m-2">
       
-        <form>
+        
           <div class="row mb-3 pb-3">
             <div class=" d-flex col col-8 align-items-center justify-content-center">
  
@@ -74,59 +82,69 @@
             </div>
             <div class="col col-4">
               <div class="row justify-content-center">
-                <img src="/img/imagenPrueba.png" class="img-thumbnail" id="fotoPerfil" alt="tu foto">
+                <img src="/PHP/img/default.png" class="img-thumbnail" id="fotoPerfil" name="fotoPerfil" alt="tu foto">
               </div>
               <div class="row">
-                <label for="inputCambiarImagen" class="col-form-label text-center">Cambiar imagen</label>
-                <input type="file" class="form-control form-control-sm bg-light" id="inputCambiarImagen">
+                <form id="formImagen" name="formImagen">
+                  <!--<label for="formNuevaImagen" class="col-form-label text-center">Cambiar imagen</label>-->
+                  <input type="file" class="form-control form-control-sm bg-light m-1" id="formNuevaImagen" name="formNuevaImagen">
+                  <button type="submit" class="btn btn-sm btn-outline-primary m-1" onclick="updateImagenUsuario()">Cambiar imagen</button>
+                  <div class="text-danger" id="respuestaCambiarDatos"></div>
+                </form>
               </div>
             </div>
           </div>
+        <form id="formDatos" name="formDatos">
           <div class="row mb-3 pb-3">
             <label for="inputUsuario" class="col-sm-3 col-form-label">Nombre de usuario</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control bg-light" id="inputUsuario" readonly>
+              <input type="text" class="form-control bg-light" id="formDatosUsuario" name="formDatosUsuario" readonly>
             </div>
           </div>
           <div class="row mb-3 pb-3">
             <label for="inputPassword" class="col-sm-3 col-form-label">Contraseña</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control bg-light" id="inputPassword" readonly>
+              <input type="text" class="form-control bg-light" id="formDatosPassword" name="formDatosPassword" readonly>
             </div>
           </div>
           <div class="row mb-3 pb-3">
             <label for="inputNombre" class="col-sm-3 col-form-label">Nombre</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control bg-light" id="inputNombre">
+              <input type="text" class="form-control bg-light" id="formDatosNombre" name="formDatosNombre">
             </div>
           </div>
           <div class="row mb-3 pb-3">
             <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
             <div class="col-sm-9">
-              <input type="email" class="form-control bg-light" id="inputEmail">
+              <input type="email" class="form-control bg-light" id="formDatosEmail" name="formDatosEmail">
             </div>
           </div>
           <div class="row mb-3 pb-3">
             <label for="inputCentro" class="col-sm-3 col-form-label">Centro o Universidad</label>
             <div class="col-sm-9">
-              <input type="texto" class="form-control bg-light" id="inputCentro">
+              <input type="texto" class="form-control bg-light" id="formDatosCentro" name="formDatosCentro">
             </div>
           </div>
           <div class="row mb-3 pb-3">
             <label for="inputEstudios" class="col-sm-3 col-form-label">Estudios</label>
             <div class="col-sm-9">
-              <input type="texto" class="form-control bg-light" id="inputEstudios">
+              <input type="texto" class="form-control bg-light" id="formDatosEstudios" name="formDatosEstudios">
             </div>
           </div>
           <div class="row mb-3 pb-3">
             <label for="inputComentario" class="col-sm-3 col-form-label">Comentario</label>
             <div class="col-sm-9">
-              <textarea  class="form-control bg-light" id="inputComentario" rows="4"></textarea>
+              <textarea  class="form-control bg-light" id="formDatosComentario" name="formDatosComentario" rows="4"></textarea>
             </div>
           </div>
 
+          <div class="row mb-3 pb-3">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-danger" id="respuestaCambiarDatos">
+            </div>
+
           <div class="row p-lg-2">
-            <button type="submit" class="btn btn-lg btn-primary">Guardar Cambios</button>
+            <button type="submit" class="btn btn-lg btn-primary" onclick="updateDatosUsuario()">Cambiar Datos</button>
           </div>
         </form>
       </div>
@@ -143,9 +161,9 @@
     <!-- Option 1: Bootstrap Bundle with Popper -->
   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     
-    <script type="text/javascript" src="/JS/app.js"></script>
+
 
 </body>
 </html>

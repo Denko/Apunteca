@@ -53,7 +53,9 @@ if(isset($_FILES['inputImagen'])){
         echo "Success";
     }else{
         print_r($errors);
-        $imagen = null;
+        //$imagen = null;
+        //Ponemos la imagen por defecto
+        $imagen = "img/default.png";
     }
  }
 

@@ -2,6 +2,18 @@
 const NUM_TOKEN = 3215646463;
 
 var datosUsuario;
+var nombre;
+var usuario;
+var password;
+var token;
+var cod_usuario;
+var email;
+var centro;
+var estudios;
+var comentario;
+var imagen = "";
+
+
 
 // Usa el cod_usuario para crear un token para la sesión
 function crearToken(cod){
@@ -32,6 +44,9 @@ function checkUser() {
         if (user != "" && user != null) {
             setCookie("usuario", user);
         }*/
+    }else{
+        //Para entrar directamente a la página de inicio si se está logueado
+        goToPage("/HTML/principal.html");
     }
     //openSession(user);
 }
@@ -60,12 +75,33 @@ function iniciarSesion() {
 }
 
 function cerrarSesion() {
+    //Eliminar las cookies y enviar a la página de login
     document.cookie = "nombre=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/"; 
     document.cookie = "usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
     document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+    document.cookie = "cod_usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+    document.cookie = "centro=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+    document.cookie = "estudios=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+    document.cookie = "comenatario=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
+    document.cookie = "imagen=; expires=Thu, 01 Jan 1970 00:00:00 UTC, path=/";
     console.log("Su sesión de usuario ha sido cerrada");
     window.location.href = "/HTML/login.html";
 
+}
+
+function loadCookiesUsuarioInVar(){
+    cod_usuario = getCookie("cod_usuario");
+    token = getCookie("token");
+    nombre = getCookie("nombre");
+    usuario = getCookie("usuario");
+    password = getCookie("password");
+    email = getCookie("email");
+    centro = getCookie("centro");
+    estudios = getCookie("estudios");
+    comentario = getCookie("comentario");
+    imagen = getCookie("imagen");
 }
 
 
@@ -113,6 +149,14 @@ function login(){
             var password = document.getElementById("inputPassword").value;
             setCookie("usuario", usuario);
             setCookie("password", password);
+            setCookie("token", crearToken(result.perfil.cod_usuario));
+            setCookie("cod_usuario", result.perfil.cod_usuario);
+            setCookie("email", result.perfil.email);
+            setCookie("centro", result.perfil.centro);
+            setCookie("estudios", result.perfil.estudios);
+            setCookie("comentario", result.perfil.comentario);
+            setCookie("imagen", result.perfil.imagen);
+
 
           console.log(document.cookie);
           guardarDatos(result.perfil);
@@ -180,6 +224,34 @@ function login(){
             }
     });
 */
+
+}
+
+// Rellena los campos de mis datos con los datos del usuario guardados en las cookies
+function loadMisDatos(){
+
+    document.getElementById("formDatosNombre").value = getCookie("nombre");
+    document.getElementById("formDatosUsuario").value = getCookie("usuario");
+    document.getElementById("formDatosPassword").value = getCookie("password");
+    document.getElementById("formDatosEmail").value = getCookie("email");
+    document.getElementById("formDatosCentro").value = getCookie("centro");
+    document.getElementById("formDatosEstudios").value = getCookie("estudios");
+    document.getElementById("formDatosComentario").value = getCookie("comentario");
+    document.getElementById("fotoPerfil").src = "/PHP/"+getCookie("imagen");
+    
+    console.log(getCookie("imagen"));
+
+    
+    /*
+    if(getCookie("imagen") == "" || getCookie("imagen") == null || getCookie("imagen") == undefined){
+        //Cargar la imagen por defecto
+       
+
+    }else{
+        document.getElementById("fotoPerfil").src = "/PHP/"+getCookie("imagen");
+        //console.log(getCookie("imagen"));
+    }
+    */
 
 }
 
@@ -347,5 +419,108 @@ function registrarUsuario(){
 */
 }
 
+function updateDatosUsuario(){
+    formDatos.onsubmit = async (e) => {
+        e.preventDefault();
+        let form = new FormData(document.getElementById('formDatos'));
+        //let form = new FormData(formLogin);
+        //console.log(form);
+        console.log(form.get('formDatosNombre'));
+    
+        let response = await fetch('/PHP/cambiarMisDatos.php', {
+          method: 'POST',
+          body: form
+        });
+      
+        let result = await response.ok;
+        console.log(result);
+        //console.log(result.perfil);
+        if(result){
+            let textoRespuesta = "Se han cambiado los datos correctamente";
+            document.getElementById("respuestaCambiarDatos").innerHTML = textoRespuesta;
 
+        }else{
+            let textoRespuesta = "Error al cambiar los datos";
+            document.getElementById("errorLogin").innerHTML = textoRespuesta;
+        }
+        
+      };
+}
+
+function getUrlImagen(usuarioBusqueda){
+    console.log(usuarioBusqueda);
+    let data = new FormData();
+    data.append('usuarioB', usuarioBusqueda);
+    
+    //user.value = usuario;
+    
+    fetch('/PHP/direccionImagen.php', {
+        method: 'POST',
+        body: data
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+        if(data.error){
+            console.log(data.error);
+        }else{
+            console.log(data.data);
+            imagen = data.data;
+            return JSON.stringify(data.data);
+            //document.getElementById("fotoPerfil").src = data;
+        }
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+
+/*
+        let response = fetch('/PHP/getUrlImagen.php', {
+          method: 'POST',
+          body: data
+        });
+      
+        let result = response.text;
+        console.log(result);
+        return result;
+        */
+}
+
+function updateImagenUsuario(){
+    formImagen.onsubmit = async (e) => {
+        e.preventDefault();
+        let form = new FormData(document.getElementById('formImagen'));
+        //let form = new FormData(formLogin);
+        //console.log(form);
+        form.append('formDatosUsuario', getCookie('usuario'));
+        console.log(form.get('formDatosUsuario'));
+        //lconsole.log(form);
+    
+        let response = await fetch('/PHP/cambiarImagen.php', {
+          method: 'POST',
+          body: form
+        });
+      
+        let result = await response.ok;
+        console.log(result);
+        if(result){
+            console.log("Imagen cambiada correctamente");
+            //window.location.reload();
+            console.log(getCookie("usuario"));
+            var ruta= getUrlImagen(getCookie("usuario"));
+            console.log(ruta);
+            console.log(imagen);
+            /* ARREGLAR para que la imagen se actualice cuando se cambie
+            document.getElementById("fotoPerfil").src = "/PHP/" + imagen;
+            */
+
+        }else{
+            let textoRespuesta = "Error al cambiar la imagen, sube sólo archivos JPG, JPEG o PNG y de menos de 20MB";
+            document.getElementById("errorImagen").innerHTML = textoRespuesta;
+        }
+        
+      };
+}
 

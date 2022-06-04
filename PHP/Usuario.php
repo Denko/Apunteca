@@ -18,7 +18,7 @@ class Usuarios {
     }
 
     function getDatos($user) {
-        $query = "SELECT nombre, email, centro, estudios, comentario, imagen FROM usuarios WHERE nombre_usuario='".$user."'";
+        $query = "SELECT nombre, email, centro, estudios, comentario, imagen, cod_usuario FROM usuarios WHERE nombre_usuario='".$user."'";
         $this->bd->ejecutar($query);
         $fila = $this->bd->getFila(0);
         $usuario = array(
@@ -28,11 +28,17 @@ class Usuarios {
             "estudios"=> $fila[3],
             "comentario"=> $fila[4],
             "imagen"=> $fila[5],
+            "cod_usuario"=> $fila[6]
         );
         return $usuario;
 
 
         //return $this->bd->getFila();
+    }
+
+    function getURL($user){
+        $this->bd->ejecutar("SELECT imagen FROM usuarios WHERE nombre_usuario='".$user."'");
+        return $this->bd->getDato();
     }
 
     function getUserById($user) {
@@ -102,6 +108,16 @@ class Usuarios {
 
     function updateUsuario($nombreUsuario, $password, $nombre, $email, $centro, $estudios, $comentario, $imagen) {
         $query = "UPDATE usuarios SET nombre='".$nombre."', email='".$email."', centro='".$centro."', estudios='".$estudios."', comentario='".$comentario."', imagen='".$imagen."' WHERE nombre_usuario='".$nombreUsuario."' ";
+        $this->bd->ejecutar($query);
+    }
+
+    function updateDatosUsuario($nombreUsuario, $password, $nombre, $email, $centro, $estudios, $comentario) {
+        $query = "UPDATE usuarios SET nombre='".$nombre."', email='".$email."', centro='".$centro."', estudios='".$estudios."', comentario='".$comentario."' WHERE nombre_usuario='".$nombreUsuario."' ";
+        $this->bd->ejecutar($query);
+    }
+
+    function updateImagenUsuario($nombreUsuario, $imagen) {
+        $query = "UPDATE usuarios SET imagen='".$imagen."' WHERE nombre_usuario='".$nombreUsuario."' ";
         $this->bd->ejecutar($query);
     }
 
