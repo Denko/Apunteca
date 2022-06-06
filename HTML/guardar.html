@@ -8,6 +8,8 @@
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="/sass/custom.css">
 
+     <script type="text/javascript" src="/JS/app.js"></script>
+
     <title>Guardar</title>
 </head>
 <body class="bg-light">
@@ -65,43 +67,45 @@
         <div class="row justify-content-center">
           <div class="col m-2">
             <h1 class="text-primary text-center mb-4">Guarda un archivo en tu Apunteca</h1>
-            <form>
+            <form id="subirArchivo" name="subirArchivo">
               <div class="row mb-3 pb-3">
-                <label for="inputArchivo" class="col-sm-3 col-form-label">Archivo<b class="text-danger">*</b></label>
+                <label for="fileArchivo" class="col-sm-3 col-form-label">Archivo<b class="text-danger">*</b></label>
                 <div class="col-sm-9">
-                  <input type="file" class="form-control bg-light" id="inputArchivo" required>
+                  <input type="file" class="form-control bg-light" id="fileArchivo" name="fileArchivo" required>
                 </div>
               </div>
               <div class="row mb-3 pb-3">
-                <label for="inputNombreArchivo" class="col-sm-3 col-form-label">Nombre<b class="text-danger">*</b></label>
+                <label for="nombreArchivo" class="col-sm-3 col-form-label">Nombre<b class="text-danger">*</b></label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control bg-light" id="inputNombreArchivo" required>
+                  <input type="text" class="form-control bg-light" id="nombreArchivo" name="nombreArchivo" required>
                 </div>
               </div>
               <div class="row mb-3 pb-3">
-                <label for="inputAsignatura" class="col-sm-3 col-form-label">Asignatura<b class="text-danger">*</b></label>
+                <label for="asignaturaArchivo" class="col-sm-3 col-form-label">Asignatura<b class="text-danger">*</b></label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control bg-light" id="inputAsignatura" required>
+                  <input type="text" class="form-control bg-light" id="asignaturaArchivo" name="asignaturaArchivo" required>
                 </div>
               </div>
               <div class="row mb-3 pb-3">
-                <label for="inputCentro" class="col-sm-3 col-form-label">Centro<b class="text-danger">*</b></label>
+                <label for="centroArchivo" class="col-sm-3 col-form-label">Centro<b class="text-danger">*</b></label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control bg-light" id="inputCentro" required>
+                  <input type="text" class="form-control bg-light" id="centroArchivo" name="centroArchivo" required>
                 </div>
               </div>
               <div class="row mb-3 pb-3">
-                <label for="inputDescripcion" class="col-sm-3 col-form-label">Descripción</label>
+                <label for="descripcionArchivo" class="col-sm-3 col-form-label">Descripción</label>
                 <div class="col-sm-9">
-                  <textarea  class="form-control bg-light" id="inputDescripcion" rows="2"></textarea>
+                  <textarea  class="form-control bg-light" id="descripcionArchivo" name="descripcionArchivo" rows="2"></textarea>
                 </div>
               </div>
               <div class="row">
                 <p>Los campos marcados con <b class="text-danger">*</b> son obligatorios</p>
               </div>
+              <div class="row text-success" id="respuestaSubirArchivo"></div>
+              <div class="row text-danger" id="errorSubirArchivo"></div>
     
               <div class="row p-lg-2">
-                <button type="submit" class="btn btn-lg btn-primary">Guardar Archivo</button>
+                <button type="submit" class="btn btn-lg btn-primary" onclick="guardarArchivo()">Guardar Archivo</button>
               </div>
             </form>
           </div>
@@ -118,7 +122,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     
-    <script type="text/javascript" src="/JS/app.js"></script>
+    
 
 </body>
 </html>

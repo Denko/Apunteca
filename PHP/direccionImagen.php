@@ -33,7 +33,11 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
     $nombreUsuario = $_POST['usuarioB'];
 
+    
+
     $respuesta = $usuarios->getURL($nombreUsuario);
+
+    //echo $respuesta;
     //$respuesta = $usuarios->getURL("alex");
 
     //echo $usuarios->getURL("alex");
