@@ -14,10 +14,12 @@ $bd = ControlBD::getInstance();
 $usuarios = new Usuarios();
 $apuntes = new Apuntes();
 
-$lista = $apuntes->getApuntesUsuario('1');
+echo $usuarios->existe('pedro');
+
+//$lista = $apuntes->getApuntesUsuario('1');
 //$lista.length();
 
-echo json_encode($lista);
+//echo json_encode($lista);
 //echo $usuarios->getTodos();
 //echo json_encode($usuarios->getTodos());
 /*

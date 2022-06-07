@@ -11,9 +11,9 @@ class Apuntes{
 			$this->tabla = "apuntes";
 		}
 
-    function addApunte($propietario, $ruta, $nombre, $centro, $asignatura, $descripcion, $fechaSubida) {
+    function addApunte($propietario, $ruta, $nombre, $centro, $asignatura, $descripcion, $fechaSubida, $tipo_archivo) {
         //$pass = md5($pass);
-        $query = "INSERT INTO apuntes (propietario, ruta, nombre, centro, asignatura, compartido, descripcion, num_descargas, fecha_subida) VALUES ('".$propietario."', '".$ruta."', '".$nombre."', '".$centro."', '".$asignatura."', '1', '".$descripcion."', '0', '".$fechaSubida."')";
+        $query = "INSERT INTO apuntes (propietario, ruta, nombre, centro, asignatura, compartido, descripcion, num_descargas, fecha_subida, tipo_archivo) VALUES ('".$propietario."', '".$ruta."', '".$nombre."', '".$centro."', '".$asignatura."', '1', '".$descripcion."', '0', '".$fechaSubida."', '".$tipo_archivo."')";
         $this->bd->ejecutar($query);
     }
 
@@ -38,7 +38,7 @@ class Apuntes{
     }
 
     function addBiblioteca($propietario, $suCodApunte, $fechaSubida){
-        $query = "INSERT INTO biblioteca (codigo_apunte, cod_usuario, fecha) VALUES ('".$suCodApunte."', '".$propietario."', '".$fechaSubida."')";
+        $query = "INSERT INTO biblioteca (cod_apunte, cod_usuario, fecha) VALUES ('".$suCodApunte."', '".$propietario."', '".$fechaSubida."')";
         $this->bd->ejecutar($query);
         
     }

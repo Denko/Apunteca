@@ -27,7 +27,8 @@ if(isset($_FILES['fileArchivo'])){
     $file_size = $_FILES['fileArchivo']['size'];
     $file_tmp = $_FILES['fileArchivo']['tmp_name'];
     $file_type = $_FILES['fileArchivo']['type'];
-    $file_ext=strtolower(end(explode('.',$_FILES['fileArchivo']['name'])));
+    //$file_ext=strtolower(end(explode('.',$_FILES['fileArchivo']['name'])));
+    $file_ext= pathinfo($_FILES['fileArchivo']['name'], PATHINFO_EXTENSION);
 
     $expensions= array("pdf","txt","odt","doc"."docx");
 
@@ -50,7 +51,7 @@ if(isset($_FILES['fileArchivo'])){
         $fechaSubida = date("m.d.y"); 
 
         //Añadimos el apunte a la base de datos
-        $apuntes->addApunte($propietario, $ruta, $nombre, $centro, $asignatura, $descripcion, $fechaSubida);
+        $apuntes->addApunte($propietario, $ruta, $nombre, $centro, $asignatura, $descripcion, $fechaSubida, $file_ext);
         //Añade el apunte a la tabla biblioteca
         $apuntes->addBiblioteca($propietario, $suCodApunte, $fechaSubida);
         

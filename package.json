@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Denko/Apunteca#readme",
   "dependencies": {
     "bootstrap": "^5.1.3",
+    "cloc": "^2.9.0",
     "jquery": "^3.6.0"
   }
 }

@@ -13,6 +13,13 @@ var estudios;
 var comentario;
 var imagen = "";
 
+var listadoMisDocumentos = Array();
+var listadoMisDocumentosFiltrado = Array();
+
+var listadoFiltroAsignaturas = Array();
+var listadoFiltroAsignaturasUnicas = Array();
+
+
 
 
 // Usa el cod_usuario para crear un token para la sesión
@@ -34,6 +41,7 @@ function comprobarToken(cod, token){
 }
 
 function checkUser() {
+    //var user = sessionStorage.getItem("usuario");
     var user = getCookie("usuario");
     if (user == "") {
         cerrarSesion();
@@ -275,166 +283,81 @@ function loadMisDatos(){
 
 function registrarUsuario(){
 
-    formRegistro.onsubmit = async (e) => {
-        e.preventDefault();
-        let form = new FormData(document.getElementById('formRegistro'));
+    botonEnviarRegistro = document.getElementById("btnEnviar");
+        formRegistro.onsubmit = async (e) => {
+            e.preventDefault();
 
-        console.log(form);
+            
 
-    
-        let response = await fetch('/PHP/registrar.php', {
-          method: 'POST',
-          body: form
-        });
-      
-        let result = await response.json();
-        console.log(result.success);
-        //console.log(result.perfil);
-        if(result.success){
-          
-          console.log(result.success);
-          window.location.href = '/HTML/login.html';
-        }
-        //alert(result.success);
-      };
+            let pass1 = document.getElementById("inputPassword").value;
+            let pass2 = document.getElementById("inputPassword2").value;
 
-      /*
-    const btnEnviar = document.querySelector("#btnEnviar");
-    const inputFile = document.querySelector("#inputImagen");
-    var inputUsuario = document.getElementById("inputUsuario").value;
-    var inputNombre = document.getElementById("inputNombre").value;
-    var inputPassword = document.getElementById("inputPassword").value;
-    var inputPassword2 = document.getElementById("inputPassword2").value;
-    var inputEmail = document.getElementById("inputEmail").value;
-    var inputCentro = document.getElementById("inputCentro").value;
-    var inputEstudios = document.getElementById("inputEstudios").value;
-    var inputComentario = document.getElementById("inputComentario").value;
+            console.log(pass1, pass2);
 
-    */
-    /*
-    var inputUsuario = document.formRegistro.inputUsuario.value;
-    var inputNombre = document.formRegistro.inputNombre.value;
-    var inputPassword = document.formRegistro.inputPassword.value;
-    var inputPassword2 = document.formRegistro.inputPassword2.value;
-    var inputEmail = document.formRegistro.inputEmail.value;
-    var inputCentro = document.formRegistro.inputCentro.value;
-    var inputEstudios = document.formRegistro.inputEstudios.value;
-    var inputComentario = document.formRegistro.inputComentario.value;
-    */
+            if(pass1 == pass2){
 
-    /*
-    btnEnviar.addEventListener("click", () => {
-        if (inputFile.files.length > 0) {
-            let formData = new FormData();
-            formData.append("inputImagen", inputFile.files[0]);
-            formData.append("inputUsuario", inputUsuario);
-            formData.append("inputNombre", inputNombre);
-            formData.append("inputPassword", inputPassword);
-            formData.append("inputPassword2", inputPassword2);
-            formData.append("inputEmail", inputEmail);
-            formData.append("inputCentro", inputCentro);
-            formData.append("inputEstudios", inputEstudios);
-            formData.append("inputComentario", inputComentario);
-            fetch("/PHP/registar.php", {
-                method: 'POST',
-                body: formData,
-            })
-                .then(respuesta => respuesta.text())
-                .then(decodificado => {
-                    console.log(decodificado);
-                    window.location.href = "/HTML/login.html";
-                });
-        } else {
-            let formData = new FormData();
-            formData.append("inputUsuario", inputUsuario);
-            formData.append("inputNombre", inputNombre);
-            formData.append("inputPassword", inputPassword);
-            formData.append("inputPassword2", inputPassword2);
-            formData.append("inputEmail", inputEmail);
-            formData.append("inputCentro", inputCentro);
-            formData.append("inputEstudios", inputEstudios);
-            formData.append("inputComentario", inputComentario);
-            fetch("/PHP/registar.php", {
-                method: 'POST',
-                body: formData,
-            })
-                .then(respuesta => respuesta.text())
-                .then(decodificado => {
-                    console.log(decodificado);
-                    window.location.href = "/HTML/login.html";
-                });
-        }
-    });
+                botonEnviarRegistro.disabled = true;
 
-    */
-    /*  
-    var inputUsuario = document.formRegistro.inputUsuario.value;
-    var inputNombre = document.formRegistro.inputNombre.value;
-    var inputPassword = document.formRegistro.inputPassword.value;
-    var inputPassword2 = document.formRegistro.inputPassword2.value;
-    var inputEmail = document.formRegistro.inputEmail.value;
-    //Falta la imagen
-    var inputCentro = document.formRegistro.inputCentro.value;
-    var inputEstudios = document.formRegistro.inputEstudios.value;
-    var inputComentario = document.formRegistro.inputComentario.value;
-
-
-    $.ajax({
-        url: "http://localhost/PHP/registrar.php",
-        type: "POST",
-        data: {
-            inputusuario : inputUsuario,
-            inputNombre : inputNombre,
-            inputPassword : inputPassword,
-            inputPassword2 : inputPassword2,
-            inputEmail : inputEmail,
-            inputCentro : inputCentro,
-            inputEstudios : inputEstudios,
-            inputComentario : inputComentario
-        },
-        success: function(data){
-            if(data == "true"){
-                window.location.href = "/HTML/login.html";
-                }
-                else{
-                    alert("Error al registrar");
-                }
+                let form = new FormData(document.getElementById('formRegistro'));
+            
+                let response = await fetch('/PHP/registrar.php', {
+                    method: 'POST',
+                    body: form
+                    });
+                
+                    let result = await response.text();
+                    //console.log(result.perfil);
+                    if(result=="usuario_creado"){
+                        console.log(result);
+                        window.alert("Usuario registrado correctamente");
+                        botonEnviarRegistro.disabled = false;
+                        window.location.href = '/HTML/login.html';
+                    };
+                    if(result=="usuario_existe"){
+                        console.log(result);
+                        botonEnviarRegistro.disabled = false;
+                        //window.alert("El nombre de usuario ya existe, prueba con otro");
+                        respuestaRegistro = "<p><b class='text-danger'>El nombre de usuario ya existe, prueba con otro</b></p>";
+                        document.getElementById("respuestaRegistro").innerHTML = respuestaRegistro;
+                    };
+            }else{
+                //window.alert("Las contraseñas no coinciden");
+                respuestaRegistro = "<p><b class='text-danger'>Las contraseñas no coinciden</b></p>";
+                document.getElementById("respuestaRegistro").innerHTML = respuestaRegistro;
             }
-    });
 
+        
+                
+        };
 }
-               
+    
 
-    var formulario = document.getElementById("formRegistro");
-    var datos = new FormData(formulario);
+//Para eliminar duplicados de una array
+function eliminarDuplicadosArray(lista){
+    var listaSinDuplicados = Array();
+    for(var i = 0; i < lista.length; i++){
+        if(listaSinDuplicados.indexOf(lista[i]) == -1){
+            listaSinDuplicados.push(lista[i]);
+        }
+    }
+    return listaSinDuplicados;
+}
 
-    console.log(formulario);
-    console.log(datos);
+function rellenarFiltroAsignaturas(lstMisDocumentos) {
+    listadoFiltroAsignaturas.length = 0;
+    listadoFiltroAsignaturasUnicas.length = 0;
 
-    fetch("http://localhost/PHP/registrar.php", {
-        method: 'POST',
-        mode: "no-cors",
-        body: datos,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-    .then(function(response){
-        return response.json();
-    })
-    .then(function(data){
-        if(data.error){
-            alert(data.error);
-        }
-        else{
-            alert("Usuario registrado correctamente");
-            window.location.href = "/HTML/login.html";
-        }
-    })
-    .catch(function(error){
-        console.log(error);
-    });
-*/
+    for (let i = 0; i < lstMisDocumentos.length; i++) {
+        listadoFiltroAsignaturas.push(lstMisDocumentos[i].asignatura);
+    }
+    //Eliminar duplicados
+    listadoFiltroAsignaturasUnicas = eliminarDuplicadosArray(listadoFiltroAsignaturas);
+
+    //Rellenar el select de asignaturas
+    document.getElementById("inputFiltroAsignatura").innerHTML = `<option value="Todas" selected>Todas</option>`;
+    for (let i = 0; i < listadoFiltroAsignaturasUnicas.length; i++) {
+        document.getElementById("inputFiltroAsignatura").innerHTML += `<option value="` + listadoFiltroAsignaturasUnicas[i] + `">` + listadoFiltroAsignaturasUnicas[i] + `</option>`;
+    }
 }
 
 function updateDatosUsuario(){
@@ -638,6 +561,235 @@ function cambiarBotonCompartido(boton){
     }
 }
 
+function rellenarMisDocumentos(listadoMisDocumentos){
+    console.log(listadoMisDocumentos);
+    let respuestaMisDocumentos = "";
+    
+    for(let i = 0; i < listadoMisDocumentos.length; i++){
+
+        //comprobar si el usuario es el propietario del documento
+        if(listadoMisDocumentos[i].propietario == sessionStorage.getItem('cod_usuario')){
+            
+            if (listadoMisDocumentos[i].compartido == 1){
+                var botonCompartido = `<button class="btn btn-primary m-1">Compartido</button>`;
+            }else{
+                var botonCompartido = `<button class="btn btn-outline-primary m-1">No Compartido</button>`;
+            }
+            //TODO : Cambiar el estado de compartido
+            /*
+            if (data[i].compartido == 1){
+                var botonCompartido = `<button class="btn btn-primary m-1" onclick="cambiarEstadoCompartido(${sessionStorage.getItem('cod_usuario')},${data[i].cod_apunte},${data[i].compartido});cambiarBotonCompartido(${this});">Compartido</button>`;
+            }else{
+                var botonCompartido = `<button class="btn btn-outline-primary m-1" onclick="cambiarEstadoCompartido(${sessionStorage.getItem('cod_usuario')},${data[i].cod_apunte},${data[i].compartido});cambiarBotonCompartido(${this});">No Compartido</button>`;
+            }
+            */
+        }else{
+            var botonCompartido = "";
+        }
+
+
+        respuestaMisDocumentos += `<div class="row justify-content-center align-items-center bg-light mt-5">
+        <div class="col-md-12 shadow-lg bg-white p-4">
+          <div class="row">
+            <div class="col-sm-9 col-md-10">
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Nombre</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden border border-2"><h5>`+listadoMisDocumentos[i].nombre+`</h5></div>
+                  </div>  
+                </div>
+              </div>
+              <div class="row m-1 text-center">
+                <div class="col-2 text-end overflow-hidden ">Fecha</div>
+                <div class="col-3 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].fecha_subida+`</div>
+                <div class="col-4 text-end overflow-hidden">Descargas</div>
+                <div class="col-2 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].num_descargas+`</div>
+              </div>
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].asignatura+`</div>
+                  </div>  
+                </div>
+              </div>
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Centro</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].centro+`</div>
+                  </div>  
+                </div>
+              </div>
+              <div class="row m-1">
+                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                  <div class="row">
+                    <div class="col-2 text-end overflow-hidden">Descripción</div>
+                    <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].descripcion+`</div>
+                  </div>  
+                </div>
+              </div>
+            </div>
+        <!-- Botonera -->
+            <div class="col-sm-3 col-md-2 align-items-center">
+                <div class="row" id="btnComp`+listadoMisDocumentos[i].cod_apunte+`">`+botonCompartido+`</div>
+                <div class="row"><button class="btn btn btn-outline-primary m-1">Abrir (solo PDF)</button></div>
+                <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+                <!-- <div class="row"><button>Editar</button></div> --> 
+                <div class="row"><button class="btn btn-sm btn-outline-primary m-1">Borrar</button></div>
+            </div>
+          </div>
+      
+          </div>
+        </div>`;
+        
+    }
+
+    document.getElementById("listaDocumentos").innerHTML = respuestaMisDocumentos;
+}
+
+function filtrarPorNombre(){
+
+    console.log(listadoMisDocumentos);
+
+
+    listadoMisDocumentosFiltrado.length = 0;
+    //document.getElementById("listaDocumentos").innerHTML = "";
+
+    let nombreFiltro = document.getElementById("inputFiltroNombre").value;
+
+    if (nombreFiltro == ""){
+        rellenarMisDocumentos(listadoMisDocumentos);
+        rellenarFiltroAsignaturas(listadoMisDocumentos);
+    }
+    else{
+        for (let i = 0; i < listadoMisDocumentos.length; i++){
+            if (listadoMisDocumentos[i].nombre.toLowerCase() == nombreFiltro.toLowerCase()){
+                listadoMisDocumentosFiltrado.push(listadoMisDocumentos[i]);
+            }
+        }
+    
+        console.log(listadoMisDocumentosFiltrado);
+    
+        rellenarMisDocumentos(listadoMisDocumentosFiltrado);
+        rellenarFiltroAsignaturas(listadoMisDocumentosFiltrado);
+    }
+    
+    
+
+
+}
+
+function filtrarPorAsignatura(asignatura){
+
+    let textoRespuesta = "";
+    console.log(asignatura);
+
+
+    document.getElementById("listaDocumentos").innerHTML = "";
+
+    if (asignatura == "Todas"){
+        //Mostrar todos los documentos
+        rellenarMisDocumentos(listadoMisDocumentos);
+
+    }else{
+
+        //let nombre = document.getElementById("inputFiltroNombre").value;
+        //if (nombre == ""){
+        //console.log(listadoMisDocumentos[0].asignatura);
+        for(let i = 0; i < listadoMisDocumentos.length; i++){
+            if (listadoMisDocumentos[i].asignatura == asignatura){
+                //console.log(listadoMisDocumentos[i].asignatura);
+
+                    //comprobar si el usuario es el propietario del documento
+                    if(listadoMisDocumentos[i].propietario == sessionStorage.getItem('cod_usuario')){
+                        
+                        if (listadoMisDocumentos[i].compartido == 1){
+                            var botonCompartido = `<button class="btn btn-primary m-1">Compartido</button>`;
+                        }else{
+                            var botonCompartido = `<button class="btn btn-outline-primary m-1">No Compartido</button>`;
+                        }
+                        //TODO : Cambiar el estado de compartido
+                        /*
+                        if (data[i].compartido == 1){
+                            var botonCompartido = `<button class="btn btn-primary m-1" onclick="cambiarEstadoCompartido(${sessionStorage.getItem('cod_usuario')},${data[i].cod_apunte},${data[i].compartido});cambiarBotonCompartido(${this});">Compartido</button>`;
+                        }else{
+                            var botonCompartido = `<button class="btn btn-outline-primary m-1" onclick="cambiarEstadoCompartido(${sessionStorage.getItem('cod_usuario')},${data[i].cod_apunte},${data[i].compartido});cambiarBotonCompartido(${this});">No Compartido</button>`;
+                        }
+                        */
+                    }else{
+                        var botonCompartido = "";
+                    }
+    
+    
+                    textoRespuesta += `<div class="row justify-content-center align-items-center bg-light mt-5">
+                    <div class="col-md-12 shadow-lg bg-white p-4">
+                      <div class="row">
+                        <div class="col-sm-9 col-md-10">
+                          <div class="row m-1">
+                            <div class="col-sm-12 col-lg-11 text-start ">
+                              <div class="row">
+                                <div class="col-2 text-end overflow-hidden">Nombre</div>
+                                <div class="col-10 bg-light shadow-sm overflow-hidden border border-2"><h5>`+listadoMisDocumentos[i].nombre+`</h5></div>
+                              </div>  
+                            </div>
+                          </div>
+                          <div class="row m-1 text-center">
+                            <div class="col-2 text-end overflow-hidden ">Fecha</div>
+                            <div class="col-3 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].fecha_subida+`</div>
+                            <div class="col-4 text-end overflow-hidden">Descargas</div>
+                            <div class="col-2 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].num_descargas+`</div>
+                          </div>
+                          <div class="row m-1">
+                            <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                              <div class="row">
+                                <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                                <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].asignatura+`</div>
+                              </div>  
+                            </div>
+                          </div>
+                          <div class="row m-1">
+                            <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                              <div class="row">
+                                <div class="col-2 text-end overflow-hidden">Centro</div>
+                                <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].centro+`</div>
+                              </div>  
+                            </div>
+                          </div>
+                          <div class="row m-1">
+                            <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                              <div class="row">
+                                <div class="col-2 text-end overflow-hidden">Descripción</div>
+                                <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].descripcion+`</div>
+                              </div>  
+                            </div>
+                          </div>
+                        </div>
+                    <!-- Botonera -->
+                        <div class="col-sm-3 col-md-2 align-items-center">
+                            <div class="row" id="btnComp`+listadoMisDocumentos[i].cod_apunte+`">`+botonCompartido+`</div>
+                            <div class="row"><button class="btn btn btn-outline-primary m-1">Abrir (solo PDF)</button></div>
+                            <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+                            <!-- <div class="row"><button>Editar</button></div> --> 
+                            <div class="row"><button class="btn btn-sm btn-outline-primary m-1">Borrar</button></div>
+                        </div>
+                      </div>
+                  
+                      </div>
+                    </div>`;
+                    
+                
+            }
+        } 
+    //}
+        document.getElementById("listaDocumentos").innerHTML = textoRespuesta;
+    }
+     
+    
+
+}
+
 
 function mostrarMisDocumentos(){
 // TODO: Mostrar los documentos del usuario
@@ -653,7 +805,7 @@ function mostrarMisDocumentos(){
     })
     .then(function(data){
         console.log(data);
-
+        listadoMisDocumentos = data;
         let respuestaMisDocumentos = "";
 
         if(data.length == 0){
@@ -669,127 +821,14 @@ function mostrarMisDocumentos(){
             </div>`;
             document.getElementById("listaDocumentos").innerHTML = textoRespuesta;
         }else{
-            for(let i = 0; i < data.length; i++){
 
-                //comprobar si el usuario es el propietario del documento
-                if(data[i].propietario == sessionStorage.getItem('cod_usuario')){
-                    
-                    if (data[i].compartido == 1){
-                        var botonCompartido = `<button class="btn btn-primary m-1">Compartido</button>`;
-                    }else{
-                        var botonCompartido = `<button class="btn btn-outline-primary m-1">No Compartido</button>`;
-                    }
-                    //TODO : Cambiar el estado de compartido
-                    /*
-                    if (data[i].compartido == 1){
-                        var botonCompartido = `<button class="btn btn-primary m-1" onclick="cambiarEstadoCompartido(${sessionStorage.getItem('cod_usuario')},${data[i].cod_apunte},${data[i].compartido});cambiarBotonCompartido(${this});">Compartido</button>`;
-                    }else{
-                        var botonCompartido = `<button class="btn btn-outline-primary m-1" onclick="cambiarEstadoCompartido(${sessionStorage.getItem('cod_usuario')},${data[i].cod_apunte},${data[i].compartido});cambiarBotonCompartido(${this});">No Compartido</button>`;
-                    }
-                    */
-                }else{
-                    var botonCompartido = "";
-                }
+            rellenarMisDocumentos(listadoMisDocumentos);
 
-
-                respuestaMisDocumentos += `<div class="row justify-content-center align-items-center bg-light mt-5">
-                <div class="col-md-12 shadow-lg bg-white p-4">
-                  <div class="row">
-                    <div class="col-sm-9 col-md-10">
-                      <div class="row m-1">
-                        <div class="col-sm-12 col-lg-11 text-start ">
-                          <div class="row">
-                            <div class="col-2 text-end overflow-hidden">Nombre</div>
-                            <div class="col-10 bg-light shadow-sm overflow-hidden border border-2"><h5>`+data[i].nombre+`</h5></div>
-                          </div>  
-                        </div>
-                      </div>
-                      <div class="row m-1 text-center">
-                        <div class="col-2 text-end overflow-hidden ">Fecha</div>
-                        <div class="col-3 bg-light shadow-sm m-1">`+data[i].fecha_subida+`</div>
-                        <div class="col-4 text-end overflow-hidden">Descargas</div>
-                        <div class="col-2 bg-light shadow-sm m-1">`+data[i].num_descargas+`</div>
-                      </div>
-                      <div class="row m-1">
-                        <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                          <div class="row">
-                            <div class="col-2 text-end overflow-hidden">Asignatura</div>
-                            <div class="col-10 bg-light shadow-sm overflow-hidden">`+data[i].asignatura+`</div>
-                          </div>  
-                        </div>
-                      </div>
-                      <div class="row m-1">
-                        <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                          <div class="row">
-                            <div class="col-2 text-end overflow-hidden">Centro</div>
-                            <div class="col-10 bg-light shadow-sm overflow-hidden">`+data[i].centro+`</div>
-                          </div>  
-                        </div>
-                      </div>
-                      <div class="row m-1">
-                        <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                          <div class="row">
-                            <div class="col-2 text-end overflow-hidden">Descripción</div>
-                            <div class="col-10 bg-light shadow-sm overflow-hidden">`+data[i].descripcion+`</div>
-                          </div>  
-                        </div>
-                      </div>
-                    </div>
-                <!-- Botonera -->
-                    <div class="col-sm-3 col-md-2 align-items-center">
-                        <div class="row" id="btnComp`+data[i].cod_apunte+`">`+botonCompartido+`</div>
-                        <div class="row"><button class="btn btn btn-outline-primary m-1">Abrir (solo PDF)</button></div>
-                        <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
-                        <!-- <div class="row"><button>Editar</button></div> --> 
-                        <div class="row"><button class="btn btn-sm btn-outline-primary m-1">Borrar</button></div>
-                    </div>
-                  </div>
-              
-                  </div>
-                </div>`;
-                
-            }
-
-            document.getElementById("listaDocumentos").innerHTML = respuestaMisDocumentos;
+            //Rellenar el array de asignaturas del filtro
+            rellenarFiltroAsignaturas(listadoMisDocumentos);    
             
-            /*
-            textoRespuesta = "";
-            for(let i = 0; i < data.length; i++){
-                if (data[i].compartido == "1"){
-                    //textoRespuesta += "<div class='col-md-4'><div class='card'><div class='card-body'><h5 class='card-title'>" + data[i].titulo + "</h5><p class='card-text'>" + data[i].descripcion + "</p><a href='/PHP/" + data[i].url + "' class='btn btn-primary'>Descargar</a></div></div></div>";
-                }
-                else{
-                    //textoRespuesta += "<div class='col-md-4'><div class='card'><div class='card-body'><h5 class='card-title'>" + data[i].titulo + "</h5><p class='card-text'>" + data[i].descripcion + "</p><a href='/PHP/" + data[i].url + "' class='btn btn-primary'>Descargar</a></div></div></div>";
-                }
-                respuestaMisDocumentos += "<div class='col-md-4'><div class='card'><div class='card-body'><h5 class='card-title'>" + data[i].nombre + "</h5><p class='card-text'>" + data[i].descripcion + "</p><a href='/PHP/" + data[i].url + "' class='btn btn-primary'>Descargar</a></div></div></div>";
-            }
-            document.getElementById("listaDocumentos").innerHTML = textoRespuesta;
-
-            */
         }
 
- 
-
-        /*
-        if(data.error){
-            console.log(data.error);
-        }else{
-            console.log(data.data);
-            //console.log(data.data);
-            let textoRespuesta = "";
-            let i = 0;
-            for(i = 0; i < data.data.length; i++){
-                textoRespuesta += '<div class="card">' +
-                                    '<div class="card-body">' +
-                                        '<h5 class="card-title">' + data.data[i].nombre + '</h5>' +
-                                        '<p class="card-text">' + data.data[i].descripcion + '</p>' +
-                                        '<a href="' + data.data[i].url + '" target="_blank" class="btn btn-primary">Descargar</a>' +
-                                    '</div>' +
-                                '</div>';
-            }
-            document.getElementById("misDocumentos").innerHTML = textoRespuesta;
-        }
-        */
     })
     .catch(function(error){
         console.log(error);
@@ -797,4 +836,8 @@ function mostrarMisDocumentos(){
 
 
 }
+
+
+
+
 

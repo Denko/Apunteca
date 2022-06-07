@@ -24,7 +24,7 @@ $centro = $_POST['inputCentro'];
 $estudios = $_POST['inputEstudios'];
 $comentario = $_POST['inputComentario'];
 
-echo $nombreUsuario;
+
 
 //Si se sube una imagen
 if(isset($_FILES['inputImagen'])){
@@ -33,7 +33,8 @@ if(isset($_FILES['inputImagen'])){
         $file_size = $_FILES['inputImagen']['size'];
         $file_tmp = $_FILES['inputImagen']['tmp_name'];
         $file_type = $_FILES['inputImagen']['type'];
-        $file_ext=strtolower(end(explode('.',$_FILES['inputImagen']['name'])));
+        //$file_ext=strtolower(end(explode('.',$_FILES['inputImagen']['name'])));
+        $file_ext= pathinfo($_FILES['inputImagen']['name'], PATHINFO_EXTENSION);
     
         $expensions= array("jpeg","jpg","png");
    
@@ -50,9 +51,9 @@ if(isset($_FILES['inputImagen'])){
         $file_name = $nombreUsuario.".".$file_ext;
         move_uploaded_file($file_tmp,"img/".$file_name);
         $imagen = "img/".$file_name;
-        echo "Success";
+        //echo "Success";
     }else{
-        print_r($errors);
+        //print_r($errors);
         //$imagen = null;
         //Ponemos la imagen por defecto
         $imagen = "img/default.png";
@@ -62,25 +63,28 @@ if(isset($_FILES['inputImagen'])){
 
 //Comprobamos que el nombre_usuario no coincida con otro
 $usuario = new Usuarios();
-//$usuario->addUsuario($nombreUsuario, $password, $nombre, $email, $imagen, $centro, $estudios, $comentario);
+$coincide = $usuario->existe($nombreUsuario);
 
-
-if($usuario->existe($nombreUsuario)){
+if($coincide){
     //echo "el usuario ya existe";
     //return false;
-    $response = array("success"=>false, "respuesta"=>"El nombre de usuario ya existe");
+    //response = array(success => false, respuesta => "El nombre de usuario ya existe");
+    //$response = false;
+    $response = "usuario_existe";
 }else{
     //$usuario->addUsuario();
     $query = "INSERT INTO usuarios (nombre_usuario, password, nombre, email, centro, estudios, comentario, imagen) VALUES ('".$nombreUsuario."', '".$password."', '".$nombre."', '".$email."', '".$centro."', '".$estudios."', '".$comentario."', '".$imagen."')";
     $bd->ejecutar($query);
+    $response = "usuario_creado";
     //echo "Usuario registrado";
-    //return true;
-    //$response = array("success"=>true, "respuesta"=>"Usuario registrado");
-    $response["success"] = true;
-
+    //$response = true;
+    //0$response = array(success => true, respuesta => "Usuario registrado");
+    //$response["success"] = true;
 }
 
-echo json_encode($response);
+//return $response;
+echo $response;
+//echo json_encode($response);
 
 
 ?>

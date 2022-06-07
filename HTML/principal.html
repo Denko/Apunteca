@@ -78,13 +78,22 @@
     <!-- Filtro de documentos -->
     <form>
       <div class="row mb-3 justify-content-center">
-        <label for="inputFiltro" class="col-sm-1 col-form-label text-center">Filtrar</label>
+        <label for="inputFiltroNombre" class="col-sm-1 col-form-label text-center">Filtrar</label>
         <div class="col-sm-7 mb-1">
-          <input type="text" class="form-control bg-light" id="inputFiltro">
+          <input type="text" class="form-control bg-light" id="inputFiltroNombre">
         </div>
         <div class="col-sm-1">
-          <button type="submit" class="btn btn-primary">Filtrar</button>
+          <button type="button" class="btn btn-primary" onclick="filtrarPorNombre()">Filtrar</button>
         </div>
+      </div>
+      <div class="row mb-3 justify-content-center">
+        <label for="inputFiltroAsignatura" class="col-sm-1 col-form-label text-center">Asignatura</label>
+        <div class="col-sm-8 mb-1">
+          <select id="inputFiltroAsignatura" class="form-control" onchange="filtrarPorAsignatura(this.options[this.selectedIndex].value)">
+            
+          </select>
+        </div>
+        
       </div>
     </form>
 
@@ -97,7 +106,7 @@
   
 </div>
 
-<!-- Otros ejemplos -->
+<!-- Otros ejemplos 
 
 <div class="row justify-content-center align-items-center bg-light mt-5">
   <div class="col-md-12 shadow-lg bg-white p-4">
@@ -142,12 +151,12 @@
           </div>
         </div>
       </div>
-      <!-- Botonera -->
+
       <div class="col-sm-3 col-md-2 align-items-center">
         <div class="row"><button class="btn btn-primary m-1" onclick="cambiarBotonCompartido(this)">Compartido</button></div>
         <div class="row"><button class="btn btn btn-outline-primary m-1">Abrir (solo PDF)</button></div>
         <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
-        <!-- <div class="row"><button>Editar</button></div> -->
+
         <div class="row"><button class="btn btn-sm btn-outline-primary m-1">Borrar</button></div>
       </div>
     </div>
@@ -155,7 +164,7 @@
     </div>
   </div>
 
-<!-- Fin del ejemplo de prueba -->
+ Fin del ejemplo de prueba -->
 
   </main>
 
