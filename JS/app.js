@@ -514,7 +514,7 @@ function updateImagenUsuario(){
 
             let cajaImagen = document.getElementById("cajaImagen");
             cajaImagen.removeChild(cajaImagen.childNodes[0]);
-            cajaImagen.innerHTML = `<img src="`+rutaImagen+`" class="img-thumbnail" id="fotoPerfil" name="fotoPerfil" alt="tu foto"></img>`
+            cajaImagen.innerHTML = `<img src="`+rutaImagen+`" class="img-thumbnail" id="fotoPerfil" name="fotoPerfil" alt="tu foto"></img>`;
 
             //document.getElementById("fotoPerfil").src = "/PHP/" + ruta;
             //location.reload();
