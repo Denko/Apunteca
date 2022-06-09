@@ -20,7 +20,7 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
     $propietario = $apunte1->getPropietario($cod_apunte);
 
-	if ($propietario = $cod_usuario){
+	if ($propietario == $cod_usuario){
 		$apunte2->borrarApunteBiblioteca($cod_apunte,$cod_usuario);
 		$apunte3->borrarApunteApuntes($cod_apunte);
 	}else{

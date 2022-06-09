@@ -120,7 +120,7 @@ class Apuntes{
 
 
     function buscarApuntes($busqueda){
-        $query = "SELECT apuntes.nombre, apuntes.fecha_subida, apuntes.num_descargas, apuntes.asignatura, apuntes.centro, apuntes.descripcion, apuntes.propietario, apuntes.cod_apunte, usuarios.nombre as nombre_usuario, biblioteca.cod_apunte as cod_apunte_biblioteca
+        $query = "SELECT apuntes.nombre, apuntes.fecha_subida, apuntes.ruta, apuntes.num_descargas, apuntes.asignatura, apuntes.centro, apuntes.descripcion, apuntes.propietario, apuntes.cod_apunte, usuarios.nombre as nombre_usuario, biblioteca.cod_apunte as cod_apunte_biblioteca
                 FROM apuntes JOIN biblioteca ON apuntes.cod_apunte = biblioteca.cod_apunte JOIN usuarios ON biblioteca.cod_usuario = usuarios.cod_usuario 
                 WHERE LOWER(apuntes.nombre) LIKE LOWER('%".$busqueda."%') OR LOWER(apuntes.asignatura) LIKE LOWER('%".$busqueda."%')";
         //$query = "SELECT * FROM apuntes WHERE nombre LIKE '%".$busqueda."%'";

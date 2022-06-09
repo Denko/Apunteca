@@ -22,6 +22,8 @@ var listadoFiltroAsignaturasUnicas = Array();
 var listadoBusqueda = Array();
 var listadoBusquedaFiltrado = Array();
 
+var listadoBusquedaAux = Array();
+
 var listadoFiltroBusqueda = Array();
 var listadoFiltroBusquedaUnicas = Array();
 
@@ -141,6 +143,10 @@ function guardarDatos(datos){
 
 function goToLogin() {
     window.location.href = "HTML/login.html";
+}
+
+function abrirLogin() {
+    window.location.href = "login.html";
 }
 
 function goToPage(page) {
@@ -315,9 +321,11 @@ function registrarUsuario(){
                     //console.log(result.perfil);
                     if(result=="usuario_creado"){
                         console.log(result);
-                        window.alert("Usuario registrado correctamente");
+                        //window.alert("Usuario registrado correctamente");
+                        $('#modalRegistro').modal('show');
+
                         botonEnviarRegistro.disabled = false;
-                        window.location.href = '/HTML/login.html';
+                        //window.location.href = '/HTML/login.html';
                     };
                     if(result=="usuario_existe"){
                         console.log(result);
@@ -500,7 +508,14 @@ function updateImagenUsuario(){
             var ruta= getUrlImagen();
             console.log(ruta);
             //console.log(imagen);
+            let rutaImagen = "/PHP/" + sessionStorage.getItem('imagen');
             document.getElementById("fotoPerfil").src = "/PHP/" + sessionStorage.getItem('imagen');
+            document.getElementById("fotoPerfil").setAttribute("src", rutaImagen);
+
+            let cajaImagen = document.getElementById("cajaImagen");
+            cajaImagen.removeChild(cajaImagen.childNodes[0]);
+            cajaImagen.innerHTML = `<img src="`+rutaImagen+`" class="img-thumbnail" id="fotoPerfil" name="fotoPerfil" alt="tu foto"></img>`
+
             //document.getElementById("fotoPerfil").src = "/PHP/" + ruta;
             //location.reload();
 
@@ -573,6 +588,7 @@ function cambiarEstadoCompartido(cod_usuario,cod_apunte,compartido){
     
     let result = response.ok;
     console.log(result);
+    /*
     if(result){
         console.log("Estado de compartido del documento cambiado correctamente");
         
@@ -580,7 +596,7 @@ function cambiarEstadoCompartido(cod_usuario,cod_apunte,compartido){
     }else{
         console.log("Error al cambiar el estado de compartido del documento");
     }
-    
+    */
 
 }
 
@@ -611,6 +627,34 @@ function cambiarBotonCompartido(codigodeApunte){
    
 }
 
+function descargarApunteBuscado(codigoApunte){
+
+    console.log(codigoApunte);
+    console.log(listadoBusqueda);
+    
+    for (let i = 0; i < listadoBusqueda.length; i++) {
+        if(listadoBusqueda[i].cod_apunte == codigoApunte){
+            var rutaApunte = listadoBusqueda[i].ruta;
+        }
+    }
+
+    let form = new FormData();
+    form.append('cod_apunte', codigoApunte);
+    let response = fetch('/PHP/sumarDescargas.php', {
+        method: 'POST',
+        body: form
+    });
+    let result = response.ok;
+    if(result){
+        console.log("Descarga sumada");
+    }else{
+        console.log("Error al sumar descarga");
+    }
+
+    window.open(`../PHP/`+rutaApunte);
+
+}
+
 function descargarApunte(codigoApunte){
     
     for (let i = 0; i < listadoMisDocumentos.length; i++) {
@@ -633,10 +677,6 @@ function descargarApunte(codigoApunte){
     }
 
     window.open(`../PHP/`+rutaApunte);
-
-
-
-    
 
 }
 
@@ -915,6 +955,54 @@ function mostrarMisDocumentos(){
 
 }
 
+function addApunteBiblioteca(cod_apunte){
+    let formAddApunte = new FormData();
+
+    formAddApunte.append('cod_usuario', sessionStorage.getItem('cod_usuario'));
+    formAddApunte.append('cod_apunte', cod_apunte);
+
+    let response = fetch('/PHP/addApunteBiblioteca.php', {
+        method: 'POST',
+        body: formAddApunte
+    });
+
+    let result = response.ok;
+
+    let boton = document.getElementById("btnBusAdd"+cod_apunte);
+    boton.disabled = true;
+
+    let divRespuestaAdd = document.getElementById("textoAddApunte"+cod_apunte).innerHTML = "Añadido a Mis Documentos";
+
+
+
+    /*
+    let data = new FormData();
+    data.append('cod_usuario', sessionStorage.getItem('cod_usuario'));
+    data.append('cod_apunte', cod_apunte);
+    console.log(data);
+    fetch('/PHP/addApunteBiblioteca.php', {
+        method: 'POST',
+        body: data
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+        
+        if(data){
+            console.log("Apunte añadido a la biblioteca");
+        }else{
+            console.log("Apunte no añadido a la biblioteca");
+        }
+
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+    */
+}
+
 function rellenarFiltroBusqueda(listado){
     listadoFiltroBusqueda.length = 0;
     listadoFiltroBusquedaUnicas.length = 0;
@@ -991,11 +1079,14 @@ function rellenarBusqueda(listado){
                     </div>  
                     </div>
                 </div>
+                <div class="row m-1">
+                    <div class="col-sm-12 col-lg-11 text-start text-success" id="textoAddApunte`+listado[i].cod_apunte+`"></div>
+                </div>
                 </div>
                 <!-- Botonera -->
                 <div class="col-sm-3 col-md-2 align-items-center">
-                <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
-                <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+                <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusAdd`+listado[i].cod_apunte+`" onclick="addApunteBiblioteca(`+listado[i].cod_apunte+`)">Añadir</button></div>
+                <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusDescargar`+listado[i].cod_apunte+`" onclick="descargarApunteBuscado(`+listado[i].cod_apunte+`)">Descargar</button></div>
                 </div>
             </div>
         
@@ -1008,6 +1099,7 @@ function rellenarBusqueda(listado){
     document.getElementById("listaBuscador").innerHTML = respuestaBuscar;
 
 }
+
 
 
 
@@ -1024,7 +1116,26 @@ function buscarApuntes(){
     })
     .then(function(data){
         console.log(data);
-        listadoBusqueda = data;
+        //listadoBusqueda = data;
+        listadoBusquedaAux = data;
+        console.log(listadoBusquedaAux);
+        let repetido = false;
+
+        //Para evitar que en la lista de buscados salgan los apuntes que ya tienes añadidos
+        for (let i = 0; i < listadoBusquedaAux.length; i++) {
+            for (let j = 0; j < listadoMisDocumentos.length; j++) {
+                if(listadoBusquedaAux[i].cod_apunte == listadoMisDocumentos[j].cod_apunte){
+                    repetido=true;
+                }
+                
+            }
+            if(repetido==false){
+                listadoBusqueda.push(listadoBusquedaAux[i]);
+            }
+            repetido=false;
+        }
+
+
         console.log(listadoBusqueda);
         let respuestaMisDocumentos = "";
 
@@ -1131,11 +1242,14 @@ function filtrarBuscador(asignatura){
                                       </div>  
                                     </div>
                                   </div>
+                                  <div class="row m-1">
+                                    <div class="col-sm-12 col-lg-11 text-start text-success" id="textoAddApunte`+listado[i].cod_apunte+`"></div>
+                                    </div>
                                 </div>
                                 <!-- Botonera -->
                                 <div class="col-sm-3 col-md-2 align-items-center">
-                                  <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
-                                  <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+                                  <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusAdd`+listadoBusqueda[i].cod_apunte+`" onclick="addApunteBiblioteca(`+listadoBusqueda[i].cod_apunte+`)">Añadir</button></div>
+                                  <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusDescargar`+listadoBusqueda[i].cod_apunte+`" onclick="descargarApunteBuscado(`+listadoBusqueda[i].cod_apunte+`)">Descargar</button></div>
                                 </div>
                               </div>
                           
