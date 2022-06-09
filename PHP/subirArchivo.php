@@ -9,6 +9,7 @@ require("Apunte.php");
 $bd = ControlBD::getInstance();
 
 $apuntes = new Apuntes();
+$apuntes2 = new Apuntes();
 
 $propietario = $_POST['propietario'];
 $archivo = $_FILES['fileArchivo'];
@@ -53,7 +54,7 @@ if(isset($_FILES['fileArchivo'])){
         //Añadimos el apunte a la base de datos
         $apuntes->addApunte($propietario, $ruta, $nombre, $centro, $asignatura, $descripcion, $fechaSubida, $file_ext);
         //Añade el apunte a la tabla biblioteca
-        $apuntes->addBiblioteca($propietario, $suCodApunte, $fechaSubida);
+        $apuntes2->addBiblioteca($propietario, $suCodApunte, $fechaSubida);
         
         echo true;
 

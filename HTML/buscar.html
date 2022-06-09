@@ -8,6 +8,14 @@
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="/sass/custom.css">
 
+     <script type="text/javascript">
+        window.addEventListener("keypress", function(event){
+          if (event.keyCode == 13){
+              event.preventDefault();
+          }
+        }, false);
+      </script>
+
     <title>Buscar</title>
 </head>
 <body class="bg-light">
@@ -24,7 +32,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="principal.html">Inicio</a>
+              <a class="nav-link" aria-current="page" href="principal.html">Mis Documentos</a>
             </li>
             <!--
             <li class="nav-item">
@@ -68,15 +76,24 @@
     </div>
 
     <!-- Filtro de documentos -->
-    <form>
+    <form id="formularioBusqueda">
       <div class="row mb-3 justify-content-center">
-        <label for="inputBuscar" class="col-sm-3 col-form-label text-right">Nombre o asignatura</label>
+        <label for="inputBuscar" class="col-sm-2 col-form-label text-right">Nombre o asignatura</label>
         <div class="col-sm-7 mb-1">
           <input type="text" class="form-control bg-light" id="inputBuscar">
         </div>
         <div class="col-sm-1">
-          <button type="submit" class="btn btn-primary">Buscar</button>
+          <button type="button" class="btn btn-primary" onclick="buscarApuntes()">Buscar</button>
         </div>
+      </div>
+      <div class="row mb-3 justify-content-center">
+        <label for="inputFiltroBuscador" class="col-sm-1 col-form-label text-center">Asignatura</label>
+        <div class="col-sm-8 mb-1">
+          <select id="inputFiltroBuscador" class="form-control" onchange="filtrarBuscador(this.options[this.selectedIndex].value)">
+            
+          </select>
+        </div>
+        
       </div>
     </form>
 
@@ -84,8 +101,10 @@
 </div>
 
     <!-- Lista de documentos-->
-
-    <!-- Ejemplo de lista de documentos -->
+<div id="listaBuscador">
+  
+</div>
+    <!-- Ejemplo de lista de documentos 
 
   <div class="row justify-content-center align-items-center bg-light mt-5">
     <div class="col-md-12 shadow-lg bg-white p-4">
@@ -138,7 +157,7 @@
             </div>
           </div>
         </div>
-        <!-- Botonera -->
+
         <div class="col-sm-3 col-md-2 align-items-center">
           <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
           <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
@@ -147,307 +166,12 @@
   
       </div>
     </div>
-
-    <div class="row justify-content-center align-items-center bg-light mt-5">
-      <div class="col-md-12 shadow-lg bg-white p-4">
-        <div class="row">
-          <div class="col-sm-9 col-md-10">
-            <div class="row m-1">
-              <div class="col-sm-12 col-lg-11 text-start ">
-                <div class="row">
-                  <div class="col-2 text-end overflow-hidden">Nombre</div>
-                  <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>FP1 Programación</h5></div>
-                </div>  
-              </div>
-            </div>
-            <div class="row m-1 text-center">
-              <div class="col-2 text-end overflow-hidden ">Fecha</div>
-              <div class="col-3 bg-light shadow-sm m-1">03-01-22</div>
-              <div class="col-4 text-end overflow-hidden">Descargas</div>
-              <div class="col-2 bg-light shadow-sm m-1">27</div>
-            </div>
-            <div class="row m-1">
-              <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                <div class="row">
-                  <div class="col-2 text-end overflow-hidden">Asignatura</div>
-                  <div class="col-10 bg-light shadow-sm overflow-hidden">Fundamentos de Programación</div>
-                </div>  
-              </div>
-            </div>
-            <div class="row m-1">
-              <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                <div class="row">
-                  <div class="col-2 text-end overflow-hidden">Centro</div>
-                  <div class="col-10 bg-light shadow-sm overflow-hidden">Facultad de Informática UGR Granada</div>
-                </div>  
-              </div>
-            </div>
-            <div class="row m-1">
-              <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                <div class="row">
-                  <div class="col-2 text-end overflow-hidden">Autor/a</div>
-                  <div class="col-10 bg-light shadow-sm overflow-hidden">María</div>
-                </div>  
-              </div>
-            </div>
-            <div class="row m-1">
-              <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                <div class="row">
-                  <div class="col-2 text-end overflow-hidden">Descripción</div>
-                  <div class="col-10 bg-light shadow-sm overflow-hidden">Es un documento sobre los fundamentos de programación en sdfasdfsdafsda eafasdfasd agfasfdsafasd a gdsfgdsafsda asdgasdfasd</div>
-                </div>  
-              </div>
-            </div>
-          </div>
-          <!-- Botonera -->
-          <div class="col-sm-3 col-md-2 align-items-center">
-            <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
-            <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
-          </div>
-        </div>
+-->
     
-        </div>
-      </div>
 
-      <div class="row justify-content-center align-items-center bg-light mt-5">
-        <div class="col-md-12 shadow-lg bg-white p-4">
-          <div class="row">
-            <div class="col-sm-9 col-md-10">
-              <div class="row m-1">
-                <div class="col-sm-12 col-lg-11 text-start ">
-                  <div class="row">
-                    <div class="col-2 text-end overflow-hidden">Nombre</div>
-                    <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>FP1 Programación</h5></div>
-                  </div>  
-                </div>
-              </div>
-              <div class="row m-1 text-center">
-                <div class="col-2 text-end overflow-hidden ">Fecha</div>
-                <div class="col-3 bg-light shadow-sm m-1">03-01-22</div>
-                <div class="col-4 text-end overflow-hidden">Descargas</div>
-                <div class="col-2 bg-light shadow-sm m-1">27</div>
-              </div>
-              <div class="row m-1">
-                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                  <div class="row">
-                    <div class="col-2 text-end overflow-hidden">Asignatura</div>
-                    <div class="col-10 bg-light shadow-sm overflow-hidden">Fundamentos de Programación</div>
-                  </div>  
-                </div>
-              </div>
-              <div class="row m-1">
-                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                  <div class="row">
-                    <div class="col-2 text-end overflow-hidden">Centro</div>
-                    <div class="col-10 bg-light shadow-sm overflow-hidden">Facultad de Informática UGR Granada</div>
-                  </div>  
-                </div>
-              </div>
-              <div class="row m-1">
-                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                  <div class="row">
-                    <div class="col-2 text-end overflow-hidden">Autor/a</div>
-                    <div class="col-10 bg-light shadow-sm overflow-hidden">María</div>
-                  </div>  
-                </div>
-              </div>
-              <div class="row m-1">
-                <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                  <div class="row">
-                    <div class="col-2 text-end overflow-hidden">Descripción</div>
-                    <div class="col-10 bg-light shadow-sm overflow-hidden">Es un documento</div>
-                  </div>  
-                </div>
-              </div>
-            </div>
-            <!-- Botonera -->
-            <div class="col-sm-3 col-md-2 align-items-center">
-              <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
-              <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
-            </div>
-          </div>
-      
-          </div>
-        </div>
-
-        <div class="row justify-content-center align-items-center bg-light mt-5">
-          <div class="col-md-12 shadow-lg bg-white p-4">
-            <div class="row">
-              <div class="col-sm-9 col-md-10">
-                <div class="row m-1">
-                  <div class="col-sm-12 col-lg-11 text-start ">
-                    <div class="row">
-                      <div class="col-2 text-end overflow-hidden">Nombre</div>
-                      <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>FP1 Programación</h5></div>
-                    </div>  
-                  </div>
-                </div>
-                <div class="row m-1 text-center">
-                  <div class="col-2 text-end overflow-hidden ">Fecha</div>
-                  <div class="col-3 bg-light shadow-sm m-1">03-01-22</div>
-                  <div class="col-4 text-end overflow-hidden">Descargas</div>
-                  <div class="col-2 bg-light shadow-sm m-1">27</div>
-                </div>
-                <div class="row m-1">
-                  <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                    <div class="row">
-                      <div class="col-2 text-end overflow-hidden">Asignatura</div>
-                      <div class="col-10 bg-light shadow-sm overflow-hidden">Fundamentos de Programación</div>
-                    </div>  
-                  </div>
-                </div>
-                <div class="row m-1">
-                  <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                    <div class="row">
-                      <div class="col-2 text-end overflow-hidden">Centro</div>
-                      <div class="col-10 bg-light shadow-sm overflow-hidden">Facultad de Informática UGR Granada</div>
-                    </div>  
-                  </div>
-                </div>
-                <div class="row m-1">
-                  <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                    <div class="row">
-                      <div class="col-2 text-end overflow-hidden">Autor/a</div>
-                      <div class="col-10 bg-light shadow-sm overflow-hidden">María</div>
-                    </div>  
-                  </div>
-                </div>
-                <div class="row m-1">
-                  <div class="col-sm-12 col-lg-11 text-start  m-1 ">
-                    <div class="row">
-                      <div class="col-2 text-end overflow-hidden">Descripción</div>
-                      <div class="col-10 bg-light shadow-sm overflow-hidden">Es un documento sobre los fundamentos de programación</div>
-                    </div>  
-                  </div>
-                </div>
-              </div>
-              <!-- Botonera -->
-              <div class="col-sm-3 col-md-2 align-items-center">
-                <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
-                <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
-              </div>
-            </div>
-        
-            </div>
-          </div>
 
   
-  <!--  Otro modelo de búsqueda cosn tabla -->
-  <!--
-  <div class="row justify-content-center align-items-center bg-light mt-5">
-    <div class="col-sm-12 shadow-lg bg-white p-4">
-      <div class="row justify-content-center">
-        <h1 class="text-primary text-center mb-5">BUSCAR DOCUMENTO</h1>
-        <form>
-          <div class="row mb-3 justify-content-center">
-            <label for="inputBuscar" class="col-sm-2 col-form-label">Nombre o asignatura:</label>
-            <div class="col-sm-7">
-              <input type="text" class="form-control bg-light" id="inputBuscar">
-            </div>
-            <div class="col-sm-2 d-grid">
-              <button type="submit" class="btn btn-primary">Buscar</button>
-            </div>
-          </div>
-        </form>
-      <div class="table-responsive">
-        <table class="table table-hover table-borderless">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Asignatura</th>
-            <th>Centro</th>
-            <th>Autor</th>
-            <th class="col-2"></th>
-          </tr>
-        </thead>
-        -->
-        <!-- Tabla de resultados de la búsqueda -->
-        <!--
-        <tbody id="tablaResultados">
-        -->
-
-          <!-- Ejemplos de resultados para pruebas-->
-
-          <!--
-          <tr class="bg-light shadow-sm border">
-            <td>Apuntes programación 1</td>
-            <td>Programación 1</td>
-            <td>UGR Granada</td>
-            <td>Alejandro</td>
-            <td class="col-2">
-              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
-              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
-            </td>
-          </tr>
-          <tr class="bg-light shadow-sm border">
-            <td>Apuntes programación 1</td>
-            <td>Programación 12</td>
-            <td>UMA Málaga</td>
-            <td>Pedro</td>
-            <td class="col-2">
-              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
-              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
-            </td>
-          </tr>
-          <tr class="bg-light shadow-sm border">
-            <td>Texto sobre tablas responsive</td>
-            <td>Programación 1</td>
-            <td>UGR Granada</td>
-            <td>María del Carmen</td>
-            <td class="col-2">
-              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
-              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
-            </td>
-          </tr>
-          <tr class="bg-light shadow-sm border">
-            <td>Apuntes programación 1</td>
-            <td>Programación 1</td>
-            <td>UGR Granada</td>
-            <td>Alejandro</td>
-            <td class="col-2">
-              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
-              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
-            </td>
-          </tr>
-          <tr class="bg-light shadow-sm border">
-            <td>Apuntes programación 1</td>
-            <td>Programación 1</td>
-            <td>UGR Granada</td>
-            <td>Alejandro</td>
-            <td class="col-2">
-              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
-              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
-            </td>
-          </tr>
-          <tr class="bg-light shadow-sm border">
-            <td>Apuntes programación 1</td>
-            <td>Programación 1</td>
-            <td>UGR Granada</td>
-            <td>Alejandro</td>
-            <td class="col-2">
-              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
-              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
-            </td>
-          </tr>
-          <tr class="bg-light shadow-sm border">
-            <td>Apuntes programación 1</td>
-            <td>Programación 1</td>
-            <td>UGR Granada</td>
-            <td>Alejandro</td>
-            <td class="col-2">
-              <button class="btn btn-sm btn-outline-primary m-1">Añadir</button>
-              <button class="btn btn-sm btn-outline-primary m-1">Descargar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    </div>
-    </div>
-  </div>
-        -->
-
-
+  
 
 <!-- Otra manera de organizar los resultados EN PRUEBA
 

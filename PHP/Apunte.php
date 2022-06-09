@@ -24,14 +24,6 @@ class Apuntes{
         return $fila[0];
     }
 
-    function borrarApunte($cod_apunte)
-    {
-        //Comprobar primero si el usuario user es el propietario del apunte
-
-        $query = "DELETE FROM ".$this->tabla." WHERE cod_apunte = '".$cod_apunte."'";
-        $this->bd->ejecutar($query);
-    }
-
     function borrarDeBiblioteca($cod_apunte,$cod_usuario){
         $query = "DELETE FROM biblioteca WHERE cod_apunte = '".$cod_apunte."' AND cod_usuario = '".$cod_usuario."'";
         $this->bd->ejecutar($query);
@@ -41,6 +33,48 @@ class Apuntes{
         $query = "INSERT INTO biblioteca (cod_apunte, cod_usuario, fecha) VALUES ('".$suCodApunte."', '".$propietario."', '".$fechaSubida."')";
         $this->bd->ejecutar($query);
         
+    }
+
+    function getPropietario($cod_apunte){
+        $query = "SELECT propietario FROM apuntes WHERE cod_apunte = '".$cod_apunte."'";
+        $this->bd->ejecutar($query);
+        $fila = $this->bd->getFila();
+        return $fila[0];
+    }
+
+    function getRuta($cod_apunte){
+        $query = "SELECT ruta FROM apuntes WHERE cod_apunte = '".$cod_apunte."'";
+        $this->bd->ejecutar($query);
+        $fila = $this->bd->getFila();
+        return $fila[0];
+    }
+
+    function getTipoArchivo($cod_apunte){
+        $query = "SELECT tipo_archivo FROM apuntes WHERE cod_apunte = '".$cod_apunte."'";
+        $this->bd->ejecutar($query);
+        $fila = $this->bd->getFila();
+        return $fila[0];
+    }
+
+    //Borra un apunte de la tabla apuntes
+    function borrarApunteApuntes($cod_apunte){
+            $query = "DELETE FROM apuntes WHERE cod_apunte = '".$cod_apunte."'";
+            $this->bd->ejecutar($query);
+    }
+
+    function borrarApunteBiblioteca($cod_apunte,$cod_usuario){
+        $query = "DELETE FROM biblioteca WHERE cod_apunte = '".$cod_apunte."' AND cod_usuario = '".$cod_usuario."'";
+        $this->bd->ejecutar($query);
+    }
+
+    function setCompartido($cod_apunte, $compartido){
+        $query = "UPDATE apuntes SET compartido = '".$compartido."' WHERE cod_apunte = '".$cod_apunte."'";
+        $this->bd->ejecutar($query);
+    }
+
+    function borrarNoCompartidosDeBiblioteca($cod_apunte, $cod_usuario){
+        $query = "DELETE FROM biblioteca WHERE cod_apunte = '".$cod_apunte."' AND cod_usuario != '".$cod_usuario."'";
+        $this->bd->ejecutar($query);
     }
 
     function cambiarCompartido($cod_usuario,$cod_apunte,$compartido){
@@ -59,6 +93,11 @@ class Apuntes{
             $this->bd->ejecutar($query);
         }  
         
+    }
+
+    function sumarDescarga($cod_apunte){
+        $query = "UPDATE apuntes SET num_descargas = num_descargas + 1 WHERE cod_apunte = '".$cod_apunte."'";
+        $this->bd->ejecutar($query);
     }
 
     //TODO
@@ -80,6 +119,16 @@ class Apuntes{
     }
 
 
+    function buscarApuntes($busqueda){
+        $query = "SELECT apuntes.nombre, apuntes.fecha_subida, apuntes.num_descargas, apuntes.asignatura, apuntes.centro, apuntes.descripcion, apuntes.propietario, apuntes.cod_apunte, usuarios.nombre as nombre_usuario, biblioteca.cod_apunte as cod_apunte_biblioteca
+                FROM apuntes JOIN biblioteca ON apuntes.cod_apunte = biblioteca.cod_apunte JOIN usuarios ON biblioteca.cod_usuario = usuarios.cod_usuario 
+                WHERE LOWER(apuntes.nombre) LIKE LOWER('%".$busqueda."%') OR LOWER(apuntes.asignatura) LIKE LOWER('%".$busqueda."%')";
+        //$query = "SELECT * FROM apuntes WHERE nombre LIKE '%".$busqueda."%'";
+        $this->bd->ejecutar($query);
+        $lista = array();
+        $lista = $this->bd->seleccionar($query);
+        return $lista;
+    }
 
 
 

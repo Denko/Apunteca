@@ -19,6 +19,12 @@ var listadoMisDocumentosFiltrado = Array();
 var listadoFiltroAsignaturas = Array();
 var listadoFiltroAsignaturasUnicas = Array();
 
+var listadoBusqueda = Array();
+var listadoBusquedaFiltrado = Array();
+
+var listadoFiltroBusqueda = Array();
+var listadoFiltroBusquedaUnicas = Array();
+
 
 
 
@@ -42,7 +48,7 @@ function comprobarToken(cod, token){
 
 function checkUser() {
     //var user = sessionStorage.getItem("usuario");
-    var user = getCookie("usuario");
+    var user = sessionStorage.getItem("usuario");
     if (user == "") {
         cerrarSesion();
         //goToLogin();
@@ -334,7 +340,7 @@ function registrarUsuario(){
 
 //Para eliminar duplicados de una array
 function eliminarDuplicadosArray(lista){
-    var listaSinDuplicados = Array();
+    let listaSinDuplicados = Array();
     for(var i = 0; i < lista.length; i++){
         if(listaSinDuplicados.indexOf(lista[i]) == -1){
             listaSinDuplicados.push(lista[i]);
@@ -403,8 +409,7 @@ function guardarArchivo(){
       
         //let result = await response.json();
         let result = await response.ok;
-        console.log(result.sucess);
-        console.log(result.datos);
+        console.log(result);
         //console.log(result.perfil);
         if(result){
            console.log(sessionStorage.getItem("usuario"));
@@ -507,12 +512,52 @@ function updateImagenUsuario(){
       };
 }
 
-//TODO 
-function borrarApunte(cod_usuario,cod_apunte){
+
+function borrarApunte(codigoApunte){
 // Si no es el propietario borra el apunte de la tabla biblioteca
 // Si es el propietario borra el apunte de la tabla biblioteca (con borrado en cascada se borra también de biblioteca)
+    let formBorrar = new FormData();
+    let codigoUsuario = sessionStorage.getItem('cod_usuario');
+    formBorrar.append('cod_usuario', codigoUsuario);
+    formBorrar.append('cod_apunte', codigoApunte);
+
+    let response = fetch('/PHP/borrarApunte.php', {
+        method: 'POST',
+        body: formBorrar
+    });
+
+    let result = response.ok;
+    console.log(result);
+    console.log("archivo borrado correctamente");
+    let idCajaApunte = "'cajaApunte"+codigoApunte+"'";
+
+    for (let i = 0; i < listadoMisDocumentos.length; i++) {
+        if(listadoMisDocumentos[i].cod_apunte == codigoApunte){
+            listadoMisDocumentos.splice(i, 1);
+        }
+    }
+    
+    if(listadoMisDocumentos.length == 0){
+        respuestaMisDocumentos = `<div id="listaDocumentos">
+        <div class="row justify-content-center align-items-center bg-light mt-5">
+          <div class="col-md-12 shadow-lg bg-white p-4 justify-content-center align-items-center text-center">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 justify-content-center align-items-center text-center">
+                <h4 class="text-center">No tienes documentos, prueba a guardar tus documentos o añadir los de otros usuarios</h4>
+              </div>
+            </div>
+        </div>
+        </div>`;
+        document.getElementById("listaDocumentos").innerHTML = respuestaMisDocumentos;
+    }else{
+        rellenarMisDocumentos(listadoMisDocumentos);
+        rellenarFiltroAsignaturas(listadoMisDocumentos);
+    }
+
 
 }
+
+
 function cambiarEstadoCompartido(cod_usuario,cod_apunte,compartido){
 
     let formBoton = new FormData();
@@ -523,7 +568,7 @@ function cambiarEstadoCompartido(cod_usuario,cod_apunte,compartido){
 
     let response = fetch('/PHP/cambiarEstadoCompartido.php', {
         method: 'POST',
-        body: form
+        body: formBoton
     });
     
     let result = response.ok;
@@ -539,26 +584,60 @@ function cambiarEstadoCompartido(cod_usuario,cod_apunte,compartido){
 
 }
 
-//TODO botón es el this del botón en si. 
+ 
 //en la opción del comentario es la caja que contiene al botón.
-function cambiarBotonCompartido(boton){
-
+function cambiarBotonCompartido(codigodeApunte){
+    let caja = document.getElementById("btnComp"+codigodeApunte);
+    for (let i = 0; i < listadoMisDocumentos.length; i++) {
+        if(listadoMisDocumentos[i].cod_apunte == codigodeApunte){
+            if(listadoMisDocumentos[i].compartido == 1){
+                listadoMisDocumentos[i].compartido = 0;
+                caja.removeChild(caja.childNodes[0]);
+                caja.innerHTML = `<button class="btn btn-outline-primary m-1" onclick="cambiarBotonCompartido(`+listadoMisDocumentos[i].cod_apunte+`)">No Compartido</button>`;
+               
+                cambiarEstadoCompartido(sessionStorage.getItem('cod_usuario'),listadoMisDocumentos[i].cod_apunte,listadoMisDocumentos[i].compartido);
+            }else{
+                listadoMisDocumentos[i].compartido = 1;
+                caja.removeChild(caja.childNodes[0]);
+                caja.innerHTML = `<button class="btn btn-outline-primary m-1" onclick="cambiarBotonCompartido(`+listadoMisDocumentos[i].cod_apunte+`)">Compartido</button>`;
+                
+                cambiarEstadoCompartido(sessionStorage.getItem('cod_usuario'),listadoMisDocumentos[i].cod_apunte,listadoMisDocumentos[i].compartido);
+            }
+        }
+    }
+    //let caja = "btnComp"+boton;
+    //console.log(caja);
     // traer la id de la caja del botón y reescribir el botón en esta función
-    //TODO añadir las funciones de cambiar estado compartido
-    if(boton.innerHTML == "Compartido"){
-        getElementById(boton).innerHTML = '<button class="btn btn-outline-primary m-1">No Compartido</button>';
-    }else{
-        getElementById(boton).innerHTML = '<button class="btn btn-primary m-1">Compartido</button>';
-    }
    
-    // Cambiando atributos NO FUNCIONA
-    if(boton.innerHTML == "Compartido"){
-        boton.class = "btn btn-outline-primary m-1";
-        boton.innerHTML = "No compartido";
-    }else{
-        boton.class = "btn btn-primary m-1";
-        boton.innerHTML = "Compartido";
+}
+
+function descargarApunte(codigoApunte){
+    
+    for (let i = 0; i < listadoMisDocumentos.length; i++) {
+        if(listadoMisDocumentos[i].cod_apunte == codigoApunte){
+            var rutaApunte = listadoMisDocumentos[i].ruta;
+        }
     }
+
+    let form = new FormData();
+    form.append('cod_apunte', codigoApunte);
+    let response = fetch('/PHP/sumarDescargas.php', {
+        method: 'POST',
+        body: form
+    });
+    let result = response.ok;
+    if(result){
+        console.log("Descarga sumada");
+    }else{
+        console.log("Error al sumar descarga");
+    }
+
+    window.open(`../PHP/`+rutaApunte);
+
+
+
+    
+
 }
 
 function rellenarMisDocumentos(listadoMisDocumentos){
@@ -571,9 +650,9 @@ function rellenarMisDocumentos(listadoMisDocumentos){
         if(listadoMisDocumentos[i].propietario == sessionStorage.getItem('cod_usuario')){
             
             if (listadoMisDocumentos[i].compartido == 1){
-                var botonCompartido = `<button class="btn btn-primary m-1">Compartido</button>`;
+                var botonCompartido = `<button class="btn btn-primary m-1" onclick="cambiarBotonCompartido(`+listadoMisDocumentos[i].cod_apunte+`)">Compartido</button>`;
             }else{
-                var botonCompartido = `<button class="btn btn-outline-primary m-1">No Compartido</button>`;
+                var botonCompartido = `<button class="btn btn-outline-primary m-1" onclick="cambiarBotonCompartido(`+listadoMisDocumentos[i].cod_apunte+`)">No Compartido</button>`;
             }
             //TODO : Cambiar el estado de compartido
             /*
@@ -588,7 +667,7 @@ function rellenarMisDocumentos(listadoMisDocumentos){
         }
 
 
-        respuestaMisDocumentos += `<div class="row justify-content-center align-items-center bg-light mt-5">
+        respuestaMisDocumentos += `<div class="row justify-content-center align-items-center bg-light mt-5" id="cajaApunte`+listadoMisDocumentos[i].cod_apunte+`">
         <div class="col-md-12 shadow-lg bg-white p-4">
           <div class="row">
             <div class="col-sm-9 col-md-10">
@@ -632,12 +711,10 @@ function rellenarMisDocumentos(listadoMisDocumentos){
               </div>
             </div>
         <!-- Botonera -->
-            <div class="col-sm-3 col-md-2 align-items-center">
+            <div class="col-sm-3 col-md-2 align-items-center" id="botonera`+listadoMisDocumentos[i].cod_apunte+`">
                 <div class="row" id="btnComp`+listadoMisDocumentos[i].cod_apunte+`">`+botonCompartido+`</div>
-                <div class="row"><button class="btn btn btn-outline-primary m-1">Abrir (solo PDF)</button></div>
-                <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
-                <!-- <div class="row"><button>Editar</button></div> --> 
-                <div class="row"><button class="btn btn-sm btn-outline-primary m-1">Borrar</button></div>
+                <div class="row"><button  class="btn btn btn-outline-primary m-1" id="btnDescargar`+listadoMisDocumentos[i].cod_apunte+`" onclick="descargarApunte(`+listadoMisDocumentos[i].cod_apunte+`)">Descargar</button></div>
+                <div class="row"><button class="btn btn-sm btn-outline-primary m-1" id="btnBorrar`+listadoMisDocumentos[i].cod_apunte+`" onclick="borrarApunte(`+listadoMisDocumentos[i].cod_apunte+`)">Borrar</button></div>
             </div>
           </div>
       
@@ -681,6 +758,9 @@ function filtrarPorNombre(){
 
 }
 
+
+
+
 function filtrarPorAsignatura(asignatura){
 
     let textoRespuesta = "";
@@ -723,7 +803,7 @@ function filtrarPorAsignatura(asignatura){
                     }
     
     
-                    textoRespuesta += `<div class="row justify-content-center align-items-center bg-light mt-5">
+                    textoRespuesta += `<div class="row justify-content-center align-items-center bg-light mt-5" id="cajaApunte`+listadoMisDocumentos[i].cod_apunte+`">
                     <div class="col-md-12 shadow-lg bg-white p-4">
                       <div class="row">
                         <div class="col-sm-9 col-md-10">
@@ -767,12 +847,10 @@ function filtrarPorAsignatura(asignatura){
                           </div>
                         </div>
                     <!-- Botonera -->
-                        <div class="col-sm-3 col-md-2 align-items-center">
+                        <div class="col-sm-3 col-md-2 align-items-center" id="botonera`+listadoMisDocumentos[i].cod_apunte+`">
                             <div class="row" id="btnComp`+listadoMisDocumentos[i].cod_apunte+`">`+botonCompartido+`</div>
-                            <div class="row"><button class="btn btn btn-outline-primary m-1">Abrir (solo PDF)</button></div>
-                            <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
-                            <!-- <div class="row"><button>Editar</button></div> --> 
-                            <div class="row"><button class="btn btn-sm btn-outline-primary m-1">Borrar</button></div>
+                            <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnDescargar`+listadoMisDocumentos[i].cod_apunte+`" onclick="descargarApunte(`+listadoMisDocumentos[i].cod_apunte+`)">Descargar</button></div>
+                            <div class="row"><button class="btn btn-sm btn-outline-primary m-1" id="btnBorrar`+listadoMisDocumentos[i].cod_apunte+`" onclick="borrarApunte(`+listadoMisDocumentos[i].cod_apunte+`)">Borrar</button></div>
                         </div>
                       </div>
                   
@@ -809,17 +887,17 @@ function mostrarMisDocumentos(){
         let respuestaMisDocumentos = "";
 
         if(data.length == 0){
-            respuestaMisDocumentos = `"<div id="listaDocumentos">
+            respuestaMisDocumentos = `<div id="listaDocumentos">
             <div class="row justify-content-center align-items-center bg-light mt-5">
               <div class="col-md-12 shadow-lg bg-white p-4 justify-content-center align-items-center text-center">
                 <div class="row">
                   <div class="col-sm-12 col-md-12 justify-content-center align-items-center text-center">
-                    <h4 class="text-center">No tienes documentos, prueba a guardas tus documentos o añadir los de otros usuarios</h4>
+                    <h4 class="text-center">No tienes documentos, prueba a guardar tus documentos o añadir los de otros usuarios</h4>
                   </div>
                 </div>
             </div>
             </div>`;
-            document.getElementById("listaDocumentos").innerHTML = textoRespuesta;
+            document.getElementById("listaDocumentos").innerHTML = respuestaMisDocumentos;
         }else{
 
             rellenarMisDocumentos(listadoMisDocumentos);
@@ -836,6 +914,249 @@ function mostrarMisDocumentos(){
 
 
 }
+
+function rellenarFiltroBusqueda(listado){
+    listadoFiltroBusqueda.length = 0;
+    listadoFiltroBusquedaUnicas.length = 0;
+
+    for (let i = 0; i < listado.length; i++) {
+        listadoFiltroBusqueda.push(listado[i].asignatura);
+    }
+    //Eliminar duplicados
+    listadoFiltroBusquedaUnicas = eliminarDuplicadosArray(listadoFiltroBusqueda);
+
+    //Rellenar el select de asignaturas
+    document.getElementById("inputFiltroBuscador").innerHTML = `<option value="Todas" selected>Todas</option>`;
+    for (let i = 0; i < listadoFiltroBusquedaUnicas.length; i++) {
+        document.getElementById("inputFiltroBuscador").innerHTML += `<option value="` + listadoFiltroBusquedaUnicas[i] + `">` + listadoFiltroBusquedaUnicas[i] + `</option>`;
+    }
+}
+
+function rellenarBusqueda(listado){
+
+    console.log(listado);
+    let respuestaBuscar = "";
+    
+    for(let i = 0; i < listado.length; i++){
+
+        //Muestra resultados de la busqueda sólo si los documentos no son tuyos
+        if(listado[i].propietario != sessionStorage.getItem('cod_usuario')){
+            respuestaBuscar += `<div class="row justify-content-center align-items-center bg-light mt-5">
+            <div class="col-md-12 shadow-lg bg-white p-4">
+            <div class="row">
+                <div class="col-sm-9 col-md-10">
+                <div class="row m-1">
+                    <div class="col-sm-12 col-lg-11 text-start ">
+                    <div class="row">
+                        <div class="col-2 text-end overflow-hidden">Nombre</div>
+                        <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>`+listado[i].nombre+`</h5></div>
+                    </div>  
+                    </div>
+                </div>
+                <div class="row m-1 text-center">
+                    <div class="col-2 text-end overflow-hidden ">Fecha</div>
+                    <div class="col-3 bg-light shadow-sm m-1">`+listado[i].fecha_subida+`</div>
+                    <div class="col-4 text-end overflow-hidden">Descargas</div>
+                    <div class="col-2 bg-light shadow-sm m-1">`+listado[i].num_descargas+`</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                    <div class="row">
+                        <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listado[i].asignatura+`</div>
+                    </div>  
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                    <div class="row">
+                        <div class="col-2 text-end overflow-hidden">Centro</div>
+                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listado[i].centro+`</div>
+                    </div>  
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                    <div class="row">
+                        <div class="col-2 text-end overflow-hidden">Autor/a</div>
+                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listado[i].propietario+`</div>
+                    </div>  
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                    <div class="row">
+                        <div class="col-2 text-end overflow-hidden">Descripción</div>
+                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listado[i].descripcion+`</div>
+                    </div>  
+                    </div>
+                </div>
+                </div>
+                <!-- Botonera -->
+                <div class="col-sm-3 col-md-2 align-items-center">
+                <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
+                <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+                </div>
+            </div>
+        
+            </div>
+            </div>`;
+        }
+        
+    }
+
+    document.getElementById("listaBuscador").innerHTML = respuestaBuscar;
+
+}
+
+
+
+function buscarApuntes(){
+
+    let data = new FormData();
+    data.append('texto_busqueda', document.getElementById("inputBuscar").value);
+    fetch('/PHP/buscar.php', {
+        method: 'POST',
+        body: data
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+        listadoBusqueda = data;
+        console.log(listadoBusqueda);
+        let respuestaMisDocumentos = "";
+
+        if(listadoBusqueda.length == 0){
+            respuestaMisDocumentos = `<div id="listaDocumentos">
+            <div class="row justify-content-center align-items-center bg-light mt-5">
+              <div class="col-md-12 shadow-lg bg-white p-4 justify-content-center align-items-center text-center">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 justify-content-center align-items-center text-center">
+                    <h4 class="text-center">La búsqueda no ha dado resultados</h4>
+                  </div>
+                </div>
+            </div>
+            </div>`;
+            document.getElementById("listaBuscador").innerHTML = respuestaMisDocumentos;
+        }else{
+
+            rellenarBusqueda(listadoBusqueda);
+
+            //Rellenar el array de asignaturas del filtro de búsqueda
+            rellenarFiltroBusqueda(listadoBusqueda);    
+            
+        }
+
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+
+}
+
+// Filtra la lista de documentos buscados por asignatura
+function filtrarBuscador(asignatura){
+    
+    let textoRespuesta = "";
+    console.log(asignatura);
+
+
+    document.getElementById("listaBuscador").innerHTML = "";
+
+    if (asignatura == "Todas"){
+        //Mostrar todos los documentos
+        rellenarBusqueda(listadoBusqueda);
+
+    }else{
+
+        //let nombre = document.getElementById("inputFiltroNombre").value;
+        //if (nombre == ""){
+        //console.log(listadoMisDocumentos[0].asignatura);
+        for(let i = 0; i < listadoBusqueda.length; i++){
+            if (listadoBusqueda[i].asignatura == asignatura){
+                //console.log(listadoMisDocumentos[i].asignatura);
+
+                    //comprobar si el usuario es el propietario del documento
+                    if(listadoBusqueda[i].propietario != sessionStorage.getItem('cod_usuario')){
+                        
+                            textoRespuesta += `<div class="row justify-content-center align-items-center bg-light mt-5">
+                            <div class="col-md-12 shadow-lg bg-white p-4">
+                              <div class="row">
+                                <div class="col-sm-9 col-md-10">
+                                  <div class="row m-1">
+                                    <div class="col-sm-12 col-lg-11 text-start ">
+                                      <div class="row">
+                                        <div class="col-2 text-end overflow-hidden">Nombre</div>
+                                        <div class="col-10 bg-light shadow-sm overflow-hidden"><h5>`+listadoBusqueda[i].nombre+`</h5></div>
+                                      </div>  
+                                    </div>
+                                  </div>
+                                  <div class="row m-1 text-center">
+                                    <div class="col-2 text-end overflow-hidden ">Fecha</div>
+                                    <div class="col-3 bg-light shadow-sm m-1">`+listadoBusqueda[i].fecha_subida+`</div>
+                                    <div class="col-4 text-end overflow-hidden">Descargas</div>
+                                    <div class="col-2 bg-light shadow-sm m-1">`+listadoBusqueda[i].num_descargas+`</div>
+                                  </div>
+                                  <div class="row m-1">
+                                    <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                                      <div class="row">
+                                        <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoBusqueda[i].asignatura+`</div>
+                                      </div>  
+                                    </div>
+                                  </div>
+                                  <div class="row m-1">
+                                    <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                                      <div class="row">
+                                        <div class="col-2 text-end overflow-hidden">Centro</div>
+                                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoBusqueda[i].centro+`</div>
+                                      </div>  
+                                    </div>
+                                  </div>
+                                  <div class="row m-1">
+                                    <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                                      <div class="row">
+                                        <div class="col-2 text-end overflow-hidden">Autor/a</div>
+                                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoBusqueda[i].propietario+`</div>
+                                      </div>  
+                                    </div>
+                                  </div>
+                                  <div class="row m-1">
+                                    <div class="col-sm-12 col-lg-11 text-start  m-1 ">
+                                      <div class="row">
+                                        <div class="col-2 text-end overflow-hidden">Descripción</div>
+                                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoBusqueda[i].descripcion+`</div>
+                                      </div>  
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- Botonera -->
+                                <div class="col-sm-3 col-md-2 align-items-center">
+                                  <div class="row"><button class="btn btn btn-outline-primary m-1">Añadir</button></div>
+                                  <div class="row"><button class="btn btn btn-outline-primary m-1">Descargar</button></div>
+                                </div>
+                              </div>
+                          
+                              </div>
+                            </div>`;
+                        
+                    }
+    
+    
+                    
+                    
+                
+            }
+        } 
+    
+        document.getElementById("listaBuscador").innerHTML = textoRespuesta;
+    }
+
+}
+
+
 
 
 

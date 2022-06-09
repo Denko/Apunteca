@@ -14,7 +14,13 @@ $bd = ControlBD::getInstance();
 $usuarios = new Usuarios();
 $apuntes = new Apuntes();
 
-echo $usuarios->existe('pedro');
+//echo $usuarios->existe('pedro');
+
+//$apuntes->addApunte('1', 'pruebas/prueba.txt', 'prueba', 'centro', 'asignatura', 'descripcion', '03.01.98', 'txt');
+//$apuntes->addBiblioteca('1','1','03.01.98');
+
+
+echo json_encode($apuntes->buscarApuntes('tema 2'));
 
 //$lista = $apuntes->getApuntesUsuario('1');
 //$lista.length();
