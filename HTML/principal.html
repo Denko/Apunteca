@@ -8,11 +8,13 @@
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="/sass/custom.css">
 
+     <link rel="shortcut icon" type="image/x-icon" href="/img/logo.ico" />
+
      <script type="text/javascript" src="/JS/app.js"></script>
 
     <title>APUNTECA</title>
 </head>
-<body class="bg-light">
+<body class="fondo">
 
   <script>
   if (sessionStorage.getItem("usuario") == "") {
@@ -20,11 +22,11 @@
   }
   </script>
 
-  <main class="container-md bg-light">
+  <main class="container-md">
 
 
   <!--    Menú    -->
-  <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-white">
+  <nav class="navbar navbar-expand-md navbar-light shadow-sm cabecera">
     <div class="container-fluid">
       <a class="navbar-brand text-primary" href="principal.html">Apunteca</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +35,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="principal.html">Mis Documentos</a>
+            <a class="nav-link active text-white" aria-current="page" href="principal.html">Mis Documentos</a>
           </li>
           <!--
              <li class="nav-item">
@@ -41,10 +43,10 @@
             </li>
             -->
           <li class="nav-item">
-             <a class="nav-link" href="guardar.html">Guardar</a>
+             <a class="nav-link text-white" href="guardar.html">Subir a Apunteca</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="buscar.html">Buscar</a>
+            <a class="nav-link text-white" href="buscar.html">Buscar Apuntes</a>
           </li>
           <!-- 
           <li class="nav-item">
@@ -52,7 +54,7 @@
           </li>
           -->
           <li class="nav-item">
-            <a class="nav-link" href="misDatos.html">Mis Datos</a>
+            <a class="nav-link text-white" href="misDatos.html">Mis Datos</a>
           </li>
           <!--
           <li class="nav-item">
@@ -68,7 +70,7 @@
 </nav>
 
 <!-- Contenido -->
-<div class="row justify-content-center align-items-center bg-light mt-5" id="filtroMisDocumentos">
+<div class="row justify-content-center align-items-center mt-5" id="filtroMisDocumentos">
   <div class="col-md-12 shadow-lg bg-white p-4">
     <!-- Título-->
     <div class="row justify-content-center">

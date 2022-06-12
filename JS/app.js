@@ -405,6 +405,9 @@ function updateDatosUsuario(){
 function guardarArchivo(){
     subirArchivo.onsubmit = async (e) => {
         e.preventDefault();
+        let botonGuardarArchivo = document.getElementById("botonGuardarArchivo");
+        botonGuardarArchivo.disabled = true;
+        botonGuardarArchivo.innerHTML = "Subiendo a Apunteca...";
         let form = new FormData(document.getElementById('subirArchivo'));
         //console.log(form);
         form.append('propietario', sessionStorage.getItem('cod_usuario'));
@@ -424,6 +427,9 @@ function guardarArchivo(){
            console.log(result);
            var textoRespuesta = "Se ha subido el archivo correctamente";
               document.getElementById("respuestaSubirArchivo").innerHTML = textoRespuesta;
+
+            botonGuardarArchivo.disabled = false;
+            botonGuardarArchivo.innerHTML = "Guardar Archivo";
 
               //Limpiar los campos del formulario
               document.getElementById("subirArchivo").reset();
@@ -924,6 +930,7 @@ function mostrarMisDocumentos(){
     .then(function(data){
         console.log(data);
         listadoMisDocumentos = data;
+        sessionStorage.setItem('listadoMisDocumentos', JSON.stringify(listadoMisDocumentos));
         let respuestaMisDocumentos = "";
 
         if(data.length == 0){
@@ -1105,6 +1112,11 @@ function rellenarBusqueda(listado){
 
 function buscarApuntes(){
 
+
+    // Cada vez que se haga una búsqueda hay que borrar antes listadoBusqueda para que no se acumulen
+    listadoBusqueda.length = 0;
+    listadoMisDocumentos = JSON.parse(sessionStorage.getItem('listadoMisDocumentos'));
+
     let data = new FormData();
     data.append('texto_busqueda', document.getElementById("inputBuscar").value);
     fetch('/PHP/buscar.php', {
@@ -1135,7 +1147,7 @@ function buscarApuntes(){
             repetido=false;
         }
 
-
+        console.log(listadoMisDocumentos);
         console.log(listadoBusqueda);
         let respuestaMisDocumentos = "";
 
@@ -1243,7 +1255,7 @@ function filtrarBuscador(asignatura){
                                     </div>
                                   </div>
                                   <div class="row m-1">
-                                    <div class="col-sm-12 col-lg-11 text-start text-success" id="textoAddApunte`+listado[i].cod_apunte+`"></div>
+                                    <div class="col-sm-12 col-lg-11 text-start text-success" id="textoAddApunte`+listadoBusqueda[i].cod_apunte+`"></div>
                                     </div>
                                 </div>
                                 <!-- Botonera -->

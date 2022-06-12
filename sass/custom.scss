@@ -9,5 +9,56 @@
     max-width: 200px;
 }
 
+.semitransparente{
+    background-color: rgba(255, 255, 255, 0.87);
+}
+
+input[type="text"]{
+    
+    background: #00bcd4;
+}
+    
+
+.cabecera{
+    //background: linear-gradient(to bottom, #f0b67f 70%, #fe5f55 95%);
+    //background-color: #f0b67f;
+    //border-bottom: #fe5f55 5px solid;
+    //border-left: #fe5f55 5px solid;
+    //border-right: #fe5f55 5px solid;
+    //border-bottom-left-radius: 5px;
+    //border-bottom-right-radius: 5px;
+    //background: rgb(254,95,85);
+    //background: radial-gradient(circle, rgba(254,95,85,1) 0%, rgba(214,209,177,1) 67%, rgba(240,182,127,1) 100%);
+    //background: radial-gradient(circle, rgba(214,209,177,1) 0%, rgba(240,182,127,1) 48%, rgba(254,95,85,1) 100%);
+    //background: radial-gradient(circle, rgba(254,95,85,1) 0%, rgba(240,182,127,1) 42%, rgba(214,209,177,1) 100%);
+    background: radial-gradient(circle, rgba(254,95,85,1) 0%, rgba(240,182,127,1) 73%, rgba(214,209,177,1) 100%);
+
+}
+
+.botonPrimario{
+    background-color: #00bcd4;
+}
+
+.fondo{
+    //background-color: #eef5db;
+    background-image: url("/img/fondo3.png");
+}
+
+.fondoTransparente{
+    background-color: rgba(0,0,0,0.5);
+}
+
+.textoImportante{
+    color: #ff7e57;
+}
+
+.secundario{
+    background-color: #ffbf74;
+}
+
+
+
+$primary: #fe5f55;
+
 
 @import "../node_modules/bootstrap/scss/bootstrap";
