@@ -9,17 +9,17 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 	require("Conf.php");
 	require("Apunte.php");
 	$bd = ControlBD::getInstance();	
-	$apuntes = new Apuntes();
+
+	$apunte = new Apuntes();
 
 
-    $cod_usuario = $_POST['cod_usuario'];
     $cod_apunte = $_POST['cod_apunte'];
 
-    $fecha = date("d.m.y");
-	
-    $apuntes->addBiblioteca($cod_usuario, $cod_apunte, $fecha);
+    $apunte->sumarMeGusta($cod_apunte);
 
-    return true;
+
+
+    echo true;
 
 
  ?>

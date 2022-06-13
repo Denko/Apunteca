@@ -100,11 +100,16 @@ class Apuntes{
         $this->bd->ejecutar($query);
     }
 
+    function sumarMeGusta($cod_apunte){
+        $query = "UPDATE apuntes SET me_gusta = me_gusta + 1 WHERE cod_apunte = '".$cod_apunte."'";
+        $this->bd->ejecutar($query);
+    }
+
     //TODO
     //Devuelve 
     function getApuntesUsuario($cod_usuario)
     {
-        $query = "select apuntes.cod_apunte, apuntes.propietario, apuntes.ruta, apuntes.nombre, apuntes.centro, apuntes.asignatura, apuntes.compartido, apuntes.descripcion, apuntes.num_descargas, apuntes.fecha_subida from biblioteca join apuntes on biblioteca.cod_apunte = apuntes.cod_apunte where biblioteca.cod_usuario = '".$cod_usuario."'";
+        $query = "select apuntes.cod_apunte, apuntes.propietario, apuntes.ruta, apuntes.nombre, apuntes.centro, apuntes.asignatura, apuntes.compartido, apuntes.descripcion, apuntes.num_descargas, apuntes.fecha_subida, apuntes.me_gusta from biblioteca join apuntes on biblioteca.cod_apunte = apuntes.cod_apunte where biblioteca.cod_usuario = '".$cod_usuario."' ORDER BY apuntes.cod_apunte DESC";
         //$this->bd->ejecutar($query);
         $lista = array();
         $lista = $this->bd->seleccionar($query);
@@ -120,9 +125,9 @@ class Apuntes{
 
 
     function buscarApuntes($busqueda){
-        $query = "SELECT apuntes.nombre, apuntes.fecha_subida, apuntes.ruta, apuntes.num_descargas, apuntes.asignatura, apuntes.centro, apuntes.descripcion, apuntes.propietario, apuntes.cod_apunte, usuarios.nombre as nombre_usuario, biblioteca.cod_apunte as cod_apunte_biblioteca
+        $query = "SELECT apuntes.nombre, apuntes.fecha_subida, apuntes.ruta, apuntes.num_descargas, apuntes.asignatura, apuntes.centro, apuntes.descripcion, apuntes.propietario, apuntes.cod_apunte, apuntes.me_gusta, usuarios.nombre as nombre_usuario, biblioteca.cod_apunte as cod_apunte_biblioteca
                 FROM apuntes JOIN biblioteca ON apuntes.cod_apunte = biblioteca.cod_apunte JOIN usuarios ON biblioteca.cod_usuario = usuarios.cod_usuario 
-                WHERE LOWER(apuntes.nombre) LIKE LOWER('%".$busqueda."%') OR LOWER(apuntes.asignatura) LIKE LOWER('%".$busqueda."%')";
+                WHERE LOWER(apuntes.nombre) LIKE LOWER('%".$busqueda."%') OR LOWER(apuntes.asignatura) LIKE LOWER('%".$busqueda."%') OR LOWER(apuntes.centro) LIKE LOWER('%".$busqueda."%') OR LOWER(apuntes.descripcion) LIKE LOWER('%".$busqueda."%') ORDER BY apuntes.cod_apunte DESC";
         //$query = "SELECT * FROM apuntes WHERE nombre LIKE '%".$busqueda."%'";
         $this->bd->ejecutar($query);
         $lista = array();

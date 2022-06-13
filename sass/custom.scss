@@ -22,18 +22,19 @@ input[type="text"]{
 .cabecera{
     //background: linear-gradient(to bottom, #f0b67f 70%, #fe5f55 95%);
     //background-color: #f0b67f;
-    //border-bottom: #fe5f55 5px solid;
+    border-bottom: #fe5f55 5px solid;
     //border-left: #fe5f55 5px solid;
     //border-right: #fe5f55 5px solid;
     //border-bottom-left-radius: 5px;
     //border-bottom-right-radius: 5px;
-    //background: rgb(254,95,85);
+    background: rgba(220, 224, 198, 0.7);
     //background: radial-gradient(circle, rgba(254,95,85,1) 0%, rgba(214,209,177,1) 67%, rgba(240,182,127,1) 100%);
     //background: radial-gradient(circle, rgba(214,209,177,1) 0%, rgba(240,182,127,1) 48%, rgba(254,95,85,1) 100%);
     //background: radial-gradient(circle, rgba(254,95,85,1) 0%, rgba(240,182,127,1) 42%, rgba(214,209,177,1) 100%);
-    background: radial-gradient(circle, rgba(254,95,85,1) 0%, rgba(240,182,127,1) 73%, rgba(214,209,177,1) 100%);
+    //background: radial-gradient(circle, rgba(254,95,85,1) 0%, rgba(240,182,127,1) 73%, rgba(214,209,177,1) 100%);
 
 }
+
 
 .botonPrimario{
     background-color: #00bcd4;

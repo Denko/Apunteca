@@ -49,7 +49,7 @@ if(isset($_FILES['fileArchivo'])){
         move_uploaded_file($file_tmp,"apuntes/".$file_name);
         $ruta = "apuntes/".$file_name;
 
-        $fechaSubida = date("m.d.y"); 
+        $fechaSubida = date("d.m.y"); 
 
         //Añadimos el apunte a la base de datos
         $apuntes->addApunte($propietario, $ruta, $nombre, $centro, $asignatura, $descripcion, $fechaSubida, $file_ext);

@@ -22,6 +22,7 @@ var listadoFiltroAsignaturasUnicas = Array();
 var listadoBusqueda = Array();
 var listadoBusquedaFiltrado = Array();
 
+var listadoMisDocumentosAux = Array();
 var listadoBusquedaAux = Array();
 
 var listadoFiltroBusqueda = Array();
@@ -532,6 +533,69 @@ function updateImagenUsuario(){
         
       };
 }
+function ordenarAsc(p_array_json, p_key) {
+    p_array_json.sort(function (a, b) {
+       return a[p_key] > b[p_key];
+    });
+ }
+ function ordenarDesc(p_array_json, p_key) {
+    ordenarAsc(p_array_json, p_key); p_array_json.reverse(); 
+ }
+
+//Ordena una lista JSON de manera descendente
+function ordenarListaJSON(data, key){
+    return data.sort(function (a, b) {
+        var x = a[key],
+        y = b[key];
+        return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+    });
+}
+
+function ordenarDocsMasRecientes(){
+    if (listadoMisDocumentos.length > 0) {
+        listadoMasRecientes = JSON.parse(sessionStorage.getItem('listadoMisDocumentos'));
+        console.log(listadoMasRecientes);
+        rellenarMisDocumentos(listadoMasRecientes);
+    }
+}
+
+function ordenarDocsMasValorados(){
+    if (listadoMisDocumentos.length > 0) {
+        let listadoMisDocumentosOrdenado = listadoMisDocumentos;
+        listadoMisDocumentosOrdenado = ordenarListaJSON(listadoMisDocumentosOrdenado, "me_gusta");
+        rellenarMisDocumentos(listadoMisDocumentosOrdenado);
+    }
+}
+
+function ordenarDocsMasDescargados(){
+    if (listadoMisDocumentos.length > 0) {
+        let listadoMisDocumentosOrdenado = listadoMisDocumentos;
+        listadoMisDocumentosOrdenado = ordenarListaJSON(listadoMisDocumentosOrdenado, "num_descargas");
+        rellenarMisDocumentos(listadoMisDocumentosOrdenado);
+    }
+}
+
+function ordenarBuscarMasRecientes(){
+    if (listadoBusqueda.length > 0) {
+        let listadoBusquedaRecientes = JSON.parse(sessionStorage.getItem('listadoBusqueda'));
+        console.log(listadoBusquedaRecientes)
+        rellenarBusqueda(listadoBusquedaRecientes);
+    }
+}
+
+function ordenarBuscarMasValorados(){
+    if (listadoBusqueda.length > 0) {
+        let listadoBusquedaOrdenada = ordenarListaJSON(listadoBusqueda, "me_gusta");
+        rellenarBusqueda(listadoBusquedaOrdenada);
+    }
+}
+
+function ordenarBuscarMasDescargados(){
+    if (listadoBusqueda.length > 0) {
+        let listadoBusquedaOrdenada = ordenarListaJSON(listadoBusqueda, "num_descargas");
+        rellenarBusqueda(listadoBusquedaOrdenada);
+    }
+}
 
 
 function borrarApunte(codigoApunte){
@@ -578,6 +642,31 @@ function borrarApunte(codigoApunte){
 
 }
 
+function sumarMeGusta(codigoApunte){
+
+    if (document.getElementById("btnMeGusta"+codigoApunte) == null) {
+        let boton = document.getElementById("btnBusMeGusta"+codigoApunte);
+        boton.disabled = true;
+    }else{
+        let boton = document.getElementById("btnMeGusta"+codigoApunte);
+        boton.disabled = true;
+    }
+
+    
+
+    let formSumarMeGusta = new FormData(); 
+    formSumarMeGusta.append('cod_apunte', codigoApunte);
+    let response = fetch('/PHP/sumarMeGusta.php', {
+        method: 'POST',
+        body: formSumarMeGusta
+    });
+    
+    let result = response.ok;
+    //console.log(result);
+    console.log("Me gusta añadido correctamente al apunte");
+
+}
+
 
 function cambiarEstadoCompartido(cod_usuario,cod_apunte,compartido){
 
@@ -621,7 +710,7 @@ function cambiarBotonCompartido(codigodeApunte){
             }else{
                 listadoMisDocumentos[i].compartido = 1;
                 caja.removeChild(caja.childNodes[0]);
-                caja.innerHTML = `<button class="btn btn-outline-primary m-1" onclick="cambiarBotonCompartido(`+listadoMisDocumentos[i].cod_apunte+`)">Compartido</button>`;
+                caja.innerHTML = `<button class="btn btn-primary m-1" onclick="cambiarBotonCompartido(`+listadoMisDocumentos[i].cod_apunte+`)">Compartido</button>`;
                 
                 cambiarEstadoCompartido(sessionStorage.getItem('cod_usuario'),listadoMisDocumentos[i].cod_apunte,listadoMisDocumentos[i].compartido);
             }
@@ -709,7 +798,7 @@ function rellenarMisDocumentos(listadoMisDocumentos){
             }
             */
         }else{
-            var botonCompartido = "";
+            var botonCompartido = `<button class="btn btn btn-outline-primary m-1" id="btnMeGusta`+listadoMisDocumentos[i].cod_apunte+`" onclick="sumarMeGusta(`+listadoMisDocumentos[i].cod_apunte+`)">Me Gusta</button>`;
         }
 
 
@@ -727,9 +816,11 @@ function rellenarMisDocumentos(listadoMisDocumentos){
               </div>
               <div class="row m-1 text-center">
                 <div class="col-2 text-end overflow-hidden ">Fecha</div>
-                <div class="col-3 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].fecha_subida+`</div>
-                <div class="col-4 text-end overflow-hidden">Descargas</div>
-                <div class="col-2 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].num_descargas+`</div>
+                <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].fecha_subida+`</div>
+                <div class="col-2 text-end overflow-hidden ">Me gusta</div>
+                <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].me_gusta+`</div>
+                <div class="col-2 text-end overflow-hidden">Descargas</div>
+                <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].num_descargas+`</div>
               </div>
               <div class="row m-1">
                 <div class="col-sm-12 col-lg-11 text-start  m-1 ">
@@ -845,7 +936,7 @@ function filtrarPorAsignatura(asignatura){
                         }
                         */
                     }else{
-                        var botonCompartido = "";
+                        var botonCompartido = `<button class="btn btn btn-outline-primary m-1" id="btnMeGusta`+listadoMisDocumentos[i].cod_apunte+`" onclick="sumarMeGusta(`+listadoMisDocumentos[i].cod_apunte+`)">Me Gusta</button>`;
                     }
     
     
@@ -863,9 +954,11 @@ function filtrarPorAsignatura(asignatura){
                           </div>
                           <div class="row m-1 text-center">
                             <div class="col-2 text-end overflow-hidden ">Fecha</div>
-                            <div class="col-3 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].fecha_subida+`</div>
-                            <div class="col-4 text-end overflow-hidden">Descargas</div>
-                            <div class="col-2 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].num_descargas+`</div>
+                            <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].fecha_subida+`</div>
+                            <div class="col-2 text-end overflow-hidden ">Me gusta</div>
+                            <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].me_gusta+`</div>
+                            <div class="col-2 text-end overflow-hidden">Descargas</div>
+                            <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].num_descargas+`</div>
                           </div>
                           <div class="row m-1">
                             <div class="col-sm-12 col-lg-11 text-start  m-1 ">
@@ -930,6 +1023,7 @@ function mostrarMisDocumentos(){
     .then(function(data){
         console.log(data);
         listadoMisDocumentos = data;
+        listadoMisDocumentosAux = data;
         sessionStorage.setItem('listadoMisDocumentos', JSON.stringify(listadoMisDocumentos));
         let respuestaMisDocumentos = "";
 
@@ -1050,9 +1144,11 @@ function rellenarBusqueda(listado){
                 </div>
                 <div class="row m-1 text-center">
                     <div class="col-2 text-end overflow-hidden ">Fecha</div>
-                    <div class="col-3 bg-light shadow-sm m-1">`+listado[i].fecha_subida+`</div>
-                    <div class="col-4 text-end overflow-hidden">Descargas</div>
-                    <div class="col-2 bg-light shadow-sm m-1">`+listado[i].num_descargas+`</div>
+                    <div class="col-1 bg-light shadow-sm m-1">`+listado[i].fecha_subida+`</div>
+                    <div class="col-2 text-end overflow-hidden ">Me gusta</div>
+                    <div class="col-1 bg-light shadow-sm m-1">`+listado[i].me_gusta+`</div>
+                    <div class="col-2 text-end overflow-hidden">Descargas</div>
+                    <div class="col-1 bg-light shadow-sm m-1">`+listado[i].num_descargas+`</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-sm-12 col-lg-11 text-start  m-1 ">
@@ -1074,7 +1170,7 @@ function rellenarBusqueda(listado){
                     <div class="col-sm-12 col-lg-11 text-start  m-1 ">
                     <div class="row">
                         <div class="col-2 text-end overflow-hidden">Autor/a</div>
-                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listado[i].propietario+`</div>
+                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listado[i].nombre_usuario+`</div>
                     </div>  
                     </div>
                 </div>
@@ -1094,6 +1190,7 @@ function rellenarBusqueda(listado){
                 <div class="col-sm-3 col-md-2 align-items-center">
                 <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusAdd`+listado[i].cod_apunte+`" onclick="addApunteBiblioteca(`+listado[i].cod_apunte+`)">Añadir</button></div>
                 <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusDescargar`+listado[i].cod_apunte+`" onclick="descargarApunteBuscado(`+listado[i].cod_apunte+`)">Descargar</button></div>
+                <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusMeGusta`+listado[i].cod_apunte+`" onclick="sumarMeGusta(`+listado[i].cod_apunte+`)">Me Gusta</button></div>
                 </div>
             </div>
         
@@ -1130,6 +1227,7 @@ function buscarApuntes(){
         console.log(data);
         //listadoBusqueda = data;
         listadoBusquedaAux = data;
+        sessionStorage.setItem('listadoBusqueda', JSON.stringify(data));
         console.log(listadoBusquedaAux);
         let repetido = false;
 
@@ -1218,9 +1316,11 @@ function filtrarBuscador(asignatura){
                                   </div>
                                   <div class="row m-1 text-center">
                                     <div class="col-2 text-end overflow-hidden ">Fecha</div>
-                                    <div class="col-3 bg-light shadow-sm m-1">`+listadoBusqueda[i].fecha_subida+`</div>
-                                    <div class="col-4 text-end overflow-hidden">Descargas</div>
-                                    <div class="col-2 bg-light shadow-sm m-1">`+listadoBusqueda[i].num_descargas+`</div>
+                                    <div class="col-1 bg-light shadow-sm m-1">`+listadoBusqueda[i].fecha_subida+`</div>
+                                    <div class="col-2 text-end overflow-hidden ">Me gusta</div>
+                                    <div class="col-1 bg-light shadow-sm m-1">`+listadoBusqueda[i].me_gusta+`</div>
+                                    <div class="col-2 text-end overflow-hidden">Descargas</div>
+                                    <div class="col-1 bg-light shadow-sm m-1">`+listadoBusqueda[i].num_descargas+`</div>
                                   </div>
                                   <div class="row m-1">
                                     <div class="col-sm-12 col-lg-11 text-start  m-1 ">
@@ -1242,7 +1342,7 @@ function filtrarBuscador(asignatura){
                                     <div class="col-sm-12 col-lg-11 text-start  m-1 ">
                                       <div class="row">
                                         <div class="col-2 text-end overflow-hidden">Autor/a</div>
-                                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoBusqueda[i].propietario+`</div>
+                                        <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoBusqueda[i].nombre_usuario+`</div>
                                       </div>  
                                     </div>
                                   </div>
@@ -1262,6 +1362,7 @@ function filtrarBuscador(asignatura){
                                 <div class="col-sm-3 col-md-2 align-items-center">
                                   <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusAdd`+listadoBusqueda[i].cod_apunte+`" onclick="addApunteBiblioteca(`+listadoBusqueda[i].cod_apunte+`)">Añadir</button></div>
                                   <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusDescargar`+listadoBusqueda[i].cod_apunte+`" onclick="descargarApunteBuscado(`+listadoBusqueda[i].cod_apunte+`)">Descargar</button></div>
+                                  <div class="row"><button class="btn btn btn-outline-primary m-1" id="btnBusMeGusta`+listadoBusqueda[i].cod_apunte+`" onclick="sumarMeGusta(`+listadoBusqueda[i].cod_apunte+`)">Me Gusta</button></div>
                                 </div>
                               </div>
                           

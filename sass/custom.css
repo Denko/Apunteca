@@ -19,7 +19,8 @@ input[type="text"] {
 }
 
 .cabecera {
-  background: radial-gradient(circle, #fe5f55 0%, #f0b67f 73%, #d6d1b1 100%);
+  border-bottom: #fe5f55 5px solid;
+  background: rgba(220, 224, 198, 0.7);
 }
 
 .botonPrimario {

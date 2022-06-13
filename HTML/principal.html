@@ -26,7 +26,7 @@
 
 
   <!--    Menú    -->
-  <nav class="navbar navbar-expand-md navbar-light shadow-sm cabecera">
+  <nav class="navbar navbar-expand-md shadow-sm cabecera">
     <div class="container-fluid">
       <a class="navbar-brand text-primary" href="principal.html">Apunteca</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,32 +35,19 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active text-white" aria-current="page" href="principal.html">Mis Documentos</a>
+            <a class="nav-link active text-primary" aria-current="page" href="principal.html">Mis Documentos</a>
           </li>
-          <!--
-             <li class="nav-item">
-               <a class="nav-link" href="#">Mis documentos</a>
-            </li>
-            -->
+
           <li class="nav-item">
-             <a class="nav-link text-white" href="guardar.html">Subir a Apunteca</a>
+             <a class="nav-link text-primary" href="guardar.html">Subir a Apunteca</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="buscar.html">Buscar Apuntes</a>
+            <a class="nav-link text-primary" href="buscar.html">Buscar Apuntes</a>
           </li>
-          <!-- 
+
           <li class="nav-item">
-            <a class="nav-link" href="#">Mensajes</a>
+            <a class="nav-link text-primary" href="misDatos.html">Mis Datos</a>
           </li>
-          -->
-          <li class="nav-item">
-            <a class="nav-link text-white" href="misDatos.html">Mis Datos</a>
-          </li>
-          <!--
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Desactivado</a>
-          </li>
-          -->
         </ul>
 
           <button class="btn btn-outline-primary" type="button" onclick="cerrarSesion()">Salir</button>
@@ -92,10 +79,20 @@
         <label for="inputFiltroAsignatura" class="col-sm-1 col-form-label text-center">Asignatura</label>
         <div class="col-sm-8 mb-1">
           <select id="inputFiltroAsignatura" class="form-control" onchange="filtrarPorAsignatura(this.options[this.selectedIndex].value)">
-            
           </select>
         </div>
+      </div>
+      <div class="row mb-3 justify-content-center">
+        <div class="btn-group col-lg-6" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="btnradio" id="btnradioRecientes" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="btnradioRecientes" onclick="ordenarDocsMasRecientes()">Más recientes</label>
         
+          <input type="radio" class="btn-check" name="btnradio" id="btnradioValorados" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btnradioValorados" onclick="ordenarDocsMasValorados()">Más Valorados</label>
+        
+          <input type="radio" class="btn-check" name="btnradio" id="btnradioDescargados" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btnradioDescargados" onclick="ordenarDocsMasDescargados()">Más descargados</label>
+        </div>
       </div>
     </form>
 
