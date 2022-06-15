@@ -154,15 +154,45 @@ function goToPage(page) {
     window.location.href = page;
 }
 
+function recuperarCuenta(){
+    formRecuperarCuenta.onsubmit = async (e) => {
+        e.preventDefault();
+        let form = new FormData(document.getElementById('formRecuperarCuenta'));
+        let response = await fetch('/PHP/recuperarCuenta.php', {
+          method: 'POST',
+          body: form
+        });
+      
+        let result = await response.json();
+        console.log(result.success);
+        //console.log(result.perfil);
+        if(result.success){
+            
+            console.log(result.exito);
+
+            let mensajeRecuperarDatos = "Se han enviado tus datos de acceso al correo especificado";
+            document.getElementById("respuestaRecuperar").innerHTML = mensajeRecuperarDatos;
+
+        }else{
+            let mensajeRecuperarDatos = "El correo especificado no existe";
+            document.getElementById("respuestaRecuperar").innerHTML = mensajeRecuperarDatos;
+            
+        }
+
+      };
+}
 
 function login(){
 
     formLogin.onsubmit = async (e) => {
         e.preventDefault();
+        let passCodificado = btoa(document.getElementById("inputPassword").value);
         let form = new FormData(document.getElementById('formLogin'));
+        form.append("passwordCodificado", passCodificado);
         //let form = new FormData(formLogin);
         console.log(form);
-        console.log(form);
+        console.log(passCodificado)
+
     
         let response = await fetch('/PHP/login.php', {
           method: 'POST',
@@ -303,15 +333,19 @@ function registrarUsuario(){
             
 
             let pass1 = document.getElementById("inputPassword").value;
+            let passCodificado = btoa(pass1);
             let pass2 = document.getElementById("inputPassword2").value;
 
-            console.log(pass1, pass2);
+            console.log(pass1, pass2, passCodificado);
 
             if(pass1 == pass2){
 
                 botonEnviarRegistro.disabled = true;
 
                 let form = new FormData(document.getElementById('formRegistro'));
+
+                form.append("passwordCodificado", passCodificado);
+                
             
                 let response = await fetch('/PHP/registrar.php', {
                     method: 'POST',
@@ -333,6 +367,12 @@ function registrarUsuario(){
                         botonEnviarRegistro.disabled = false;
                         //window.alert("El nombre de usuario ya existe, prueba con otro");
                         respuestaRegistro = "<p><b class='text-danger'>El nombre de usuario ya existe, prueba con otro</b></p>";
+                        document.getElementById("respuestaRegistro").innerHTML = respuestaRegistro;
+                    };
+                    if(result=="correo_existe"){
+                        console.log(result);
+                        botonEnviarRegistro.disabled = false;            
+                        respuestaRegistro = "<p><b class='text-danger'>El corrreo usado ya está registrado.</b></p>";
                         document.getElementById("respuestaRegistro").innerHTML = respuestaRegistro;
                     };
             }else{
@@ -404,6 +444,42 @@ function updateDatosUsuario(){
 }
 
 function guardarArchivo(){
+    let form = document.getElementById('subirArchivo');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let botonGuardarArchivo = document.getElementById("botonGuardarArchivo");
+        botonGuardarArchivo.disabled = true;
+        botonGuardarArchivo.innerHTML = "Subiendo a Apunteca...";
+
+        let formData = new FormData(form);
+        formData.append('propietario', sessionStorage.getItem('cod_usuario'));
+        let peticion = new XMLHttpRequest();
+        peticion.open('POST', '/PHP/subirArchivo.php');
+        peticion.send(formData);
+        peticion.onload = function(){
+        console.log(peticion.responseText);
+        if(peticion.responseText){
+
+            let textoRespuesta = "Se ha subido el archivo correctamente";
+            document.getElementById("respuestaSubirArchivo").innerHTML = textoRespuesta;
+
+            botonGuardarArchivo.disabled = false;
+            botonGuardarArchivo.innerHTML = "Guardar Archivo";
+
+              //Limpiar los campos del formulario
+              document.getElementById("subirArchivo").reset();
+              window.location.href = '/HTML/principal.html';
+
+        }else{
+            let errorSubirArchivo = "Error al subir el documento. Sólo se permiten archivos con extensión .pdf, .txt, .odt, .doc, .docx y de un máximo de 40MB";
+            console.log(result.datos);
+            document.getElementById("errorSubirArchivo").innerHTML = errorSubirArchivo;
+        }
+        }
+    }
+    );
+    /*
     subirArchivo.onsubmit = async (e) => {
         e.preventDefault();
         let botonGuardarArchivo = document.getElementById("botonGuardarArchivo");
@@ -418,6 +494,7 @@ function guardarArchivo(){
           method: 'POST',
           body: form
         });
+        
       
         //let result = await response.json();
         let result = await response.ok;
@@ -439,8 +516,8 @@ function guardarArchivo(){
             console.log(result.datos);
             document.getElementById("errorSubirArchivo").innerHTML = errorSubirArchivo;
         }
-
     }
+    */
 
 }
 

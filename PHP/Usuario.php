@@ -78,6 +78,13 @@ class Usuarios {
         else return false;
     }
 
+    function existeCorreo($correo) {
+        $query = "SELECT count(*) FROM usuarios WHERE email='".$correo."'";
+        $this->bd->ejecutar($query);
+        if ($this->bd->getDato() != 0) return true;
+        else return false;
+    }
+
     function getTodos() {
         $query = "SELECT * FROM ".$this->tabla;
         $usuarios = $this->bd->seleccionar($query);
@@ -93,6 +100,17 @@ class Usuarios {
             $indices[] = $id[0];
         }
         return $indices;
+    }
+
+    function getDatosAccesoPorCorreo($correoRecibido) {
+        $query = "SELECT nombre_usuario, password FROM usuarios WHERE email='".$correoRecibido."'";
+        $this->bd->ejecutar($query);
+        $fila = $this->bd->getFila(0);
+        $usuario = array(
+            "nombre_usuario"=> $fila[0],
+            "password"=> $fila[1]
+        );
+        return $usuario;
     }
 
     function addUsuario($nombreUsuario, $password, $nombre, $email, $centro, $estudios, $comentario, $imagen) {

@@ -33,6 +33,7 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
     $nombreUsuario = $_POST['inputUsuario'];
     $password = $_POST['inputPassword'];
+	$passwordCodificado = $_POST['passwordCodificado'];
 
 //    $nombreUsuario = $_POST['nombre'];
 //    $password = $_POST['password'];
@@ -48,7 +49,7 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 */
 
-	if ($usuarios->comprobarUsuario($nombreUsuario, $password)) {
+	if ($usuarios->comprobarUsuario($nombreUsuario, $passwordCodificado)) {
 
 		$datos = $usuarios->getDatos($nombreUsuario);
 		//$response = json_encode($datos);

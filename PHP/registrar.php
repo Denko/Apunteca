@@ -17,6 +17,7 @@ $imagen = null;
 $nombreUsuario = $_POST['inputUsuario'];
 $password = $_POST['inputPassword'];
 $password2 = $_POST['inputPassword2'];
+$passwordCodificado = $_POST['passwordCodificado'];
 $nombre = $_POST['inputNombre'];
 $email = $_POST['inputEmail'];
 $imagen = $_FILES['inputImagen'];
@@ -72,14 +73,20 @@ if($coincide){
     //$response = false;
     $response = "usuario_existe";
 }else{
-    //$usuario->addUsuario();
-    $query = "INSERT INTO usuarios (nombre_usuario, password, nombre, email, centro, estudios, comentario, imagen) VALUES ('".$nombreUsuario."', '".$password."', '".$nombre."', '".$email."', '".$centro."', '".$estudios."', '".$comentario."', '".$imagen."')";
-    $bd->ejecutar($query);
-    $response = "usuario_creado";
-    //echo "Usuario registrado";
-    //$response = true;
-    //0$response = array(success => true, respuesta => "Usuario registrado");
-    //$response["success"] = true;
+    if ($usuario->existeCorreo($email)){
+        $response = "correo_existe";
+    }else{
+        //Si no existe el nombre de usuario y el correo, se registra el usuario
+
+        //$usuario->addUsuario();
+        $query = "INSERT INTO usuarios (nombre_usuario, password, nombre, email, centro, estudios, comentario, imagen) VALUES ('".$nombreUsuario."', '".$passwordCodificado."', '".$nombre."', '".$email."', '".$centro."', '".$estudios."', '".$comentario."', '".$imagen."')";
+        $bd->ejecutar($query);
+        $response = "usuario_creado";
+        //echo "Usuario registrado";
+        //$response = true;
+        //0$response = array(success => true, respuesta => "Usuario registrado");
+        //$response["success"] = true;
+    }
 }
 
 //return $response;
