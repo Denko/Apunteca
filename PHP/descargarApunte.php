@@ -13,9 +13,9 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 	$apunte = new Apuntes();
 
 
-    //$cod_apunte = $_POST['cod_apunte'];
+    $cod_apunte = $_POST['cod_apunte'];
 
-    $cod_apunte = 3;
+    //$cod_apunte = 3;
 
     $ruta = "/PHP/".$apunte->getRuta($cod_apunte);
     $tipo_archivo = $apunte->getTipoArchivo($cod_apunte);
