@@ -7,7 +7,7 @@ require("Usuario.php");
 
 $bd = ControlBD::getInstance();
 
-//$bd->conectarPrueba();
+$bd->conectarPrueba();
 
 
 
@@ -20,7 +20,7 @@ $apuntes = new Apuntes();
 //$apuntes->addBiblioteca('1','1','03.01.98');
 
 
-echo json_encode($apuntes->buscarApuntes('tema 2'));
+//echo json_encode($apuntes->buscarApuntes('tema 2'));
 
 //$lista = $apuntes->getApuntesUsuario('1');
 //$lista.length();

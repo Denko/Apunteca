@@ -943,7 +943,7 @@ function rellenarMisDocumentos(listadoMisDocumentos){
 function filtrarPorNombre(){
 
     console.log(listadoMisDocumentos);
-
+    
 
     listadoMisDocumentosFiltrado.length = 0;
     //document.getElementById("listaDocumentos").innerHTML = "";
@@ -956,7 +956,8 @@ function filtrarPorNombre(){
     }
     else{
         for (let i = 0; i < listadoMisDocumentos.length; i++){
-            if (listadoMisDocumentos[i].nombre.toLowerCase() == nombreFiltro.toLowerCase()){
+            if (listadoMisDocumentos[i].nombre.toLowerCase().indexOf(nombreFiltro.toLowerCase()) != -1){
+            //if (listadoMisDocumentos[i].nombre.toLowerCase() == nombreFiltro.toLowerCase()){
                 listadoMisDocumentosFiltrado.push(listadoMisDocumentos[i]);
             }
         }
