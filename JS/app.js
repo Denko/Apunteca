@@ -437,7 +437,7 @@ function updateDatosUsuario(){
 
         }else{
             let textoRespuesta = "Error al cambiar los datos";
-            document.getElementById("errorLogin").innerHTML = textoRespuesta;
+            document.getElementById("respuestaCambiarDatos").innerHTML = textoRespuesta;
         }
         
       };
@@ -469,7 +469,8 @@ function guardarArchivo(){
 
               //Limpiar los campos del formulario
               document.getElementById("subirArchivo").reset();
-              window.location.href = '/HTML/principal.html';
+              $('#modalGuardar').modal('show');
+             // window.location.href = '/HTML/principal.html';
 
         }else{
             let errorSubirArchivo = "Error al subir el documento. Sólo se permiten archivos con extensión .pdf, .txt, .odt, .doc, .docx y de un máximo de 40MB";
@@ -600,6 +601,8 @@ function updateImagenUsuario(){
             cajaImagen.removeChild(cajaImagen.childNodes[0]);
             cajaImagen.innerHTML = `<img src="`+rutaImagen+`" class="img-thumbnail" id="fotoPerfil" name="fotoPerfil" alt="tu foto"></img>`;
 
+            let textoRespuesta = "Imagen cambiada correctamente";
+            document.getElementById("errorImagen").innerHTML = textoRespuesta;
             //document.getElementById("fotoPerfil").src = "/PHP/" + ruta;
             //location.reload();
 
@@ -902,7 +905,7 @@ function rellenarMisDocumentos(listadoMisDocumentos){
               <div class="row m-1">
                 <div class="col-sm-12 col-lg-11 text-start  m-1 ">
                   <div class="row">
-                    <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                    <div class="col-md-12 col-lg-2 text-center overflow-hidden">Asignatura</div>
                     <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].asignatura+`</div>
                   </div>  
                 </div>
@@ -910,7 +913,7 @@ function rellenarMisDocumentos(listadoMisDocumentos){
               <div class="row m-1">
                 <div class="col-sm-12 col-lg-11 text-start  m-1 ">
                   <div class="row">
-                    <div class="col-2 text-end overflow-hidden">Centro</div>
+                    <div class="col-md-12 col-lg-2 text-center overflow-hidden">Centro</div>
                     <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].centro+`</div>
                   </div>  
                 </div>
@@ -918,7 +921,7 @@ function rellenarMisDocumentos(listadoMisDocumentos){
               <div class="row m-1">
                 <div class="col-sm-12 col-lg-11 text-start  m-1 ">
                   <div class="row">
-                    <div class="col-2 text-end overflow-hidden">Descripción</div>
+                    <div class="col-md-12 col-lg-2 text-center overflow-hidden">Descripción</div>
                     <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].descripcion+`</div>
                   </div>  
                 </div>
@@ -1041,7 +1044,7 @@ function filtrarPorAsignatura(asignatura){
                           <div class="row m-1">
                             <div class="col-sm-12 col-lg-11 text-start  m-1 ">
                               <div class="row">
-                                <div class="col-2 text-end overflow-hidden">Asignatura</div>
+                                <div class="col-md-12 col-lg-2 text-center overflow-hidden">Asignatura</div>
                                 <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].asignatura+`</div>
                               </div>  
                             </div>
@@ -1049,7 +1052,7 @@ function filtrarPorAsignatura(asignatura){
                           <div class="row m-1">
                             <div class="col-sm-12 col-lg-11 text-start  m-1 ">
                               <div class="row">
-                                <div class="col-2 text-end overflow-hidden">Centro</div>
+                                <div class="col-md-12 col-lg-2 text-center overflow-hidden">Centro</div>
                                 <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].centro+`</div>
                               </div>  
                             </div>
@@ -1057,7 +1060,7 @@ function filtrarPorAsignatura(asignatura){
                           <div class="row m-1">
                             <div class="col-sm-12 col-lg-11 text-start  m-1 ">
                               <div class="row">
-                                <div class="col-2 text-end overflow-hidden">Descripción</div>
+                                <div class="col-md-12 col-lg-2 text-center overflow-hidden">Descripción</div>
                                 <div class="col-10 bg-light shadow-sm overflow-hidden">`+listadoMisDocumentos[i].descripcion+`</div>
                               </div>  
                             </div>

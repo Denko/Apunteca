@@ -16,12 +16,13 @@
 </head>
 <body class="fondo" onload="loadMisDatos()">
 
+  <!--
   <script>
     if (getCookie("usuario") == "") {
       window.location.href = "login.html";
     }
     </script>
-
+  -->
   <main class="container">
     <!--    Menú    -->
     <nav class="navbar navbar-expand-md navbar-light shadow-sm cabecera">
@@ -76,7 +77,7 @@
                   <!--<label for="formNuevaImagen" class="col-form-label text-center">Cambiar imagen</label>-->
                   <input type="file" class="form-control form-control-sm bg-light m-1" id="formNuevaImagen" name="formNuevaImagen">
                   <button type="submit" class="btn btn-sm btn-outline-primary m-1" onclick="updateImagenUsuario()">Cambiar imagen</button>
-                  <div class="text-danger" id="respuestaCambiarDatos"></div>
+                  <div class="text-danger" id="errorImagen"></div>
                 </form>
               </div>
             </div>
