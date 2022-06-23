@@ -622,13 +622,16 @@ function ordenarAsc(p_array_json, p_key) {
     ordenarAsc(p_array_json, p_key); p_array_json.reverse(); 
  }
 
+
 //Ordena una lista JSON de manera descendente
 function ordenarListaJSON(data, key){
+
     return data.sort(function (a, b) {
         var x = a[key],
         y = b[key];
         return ((x > y) ? -1 : ((x < y) ? 1 : 0));
     });
+
 }
 
 function ordenarDocsMasRecientes(){
@@ -896,9 +899,9 @@ function rellenarMisDocumentos(listadoMisDocumentos){
               </div>
               <div class="row m-1 text-center">
                 <div class="col-2 text-end overflow-hidden ">Fecha</div>
-                <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].fecha_subida+`</div>
-                <div class="col-2 text-end overflow-hidden ">Me gusta</div>
-                <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].me_gusta+`</div>
+                <div class="col-md-8 col-lg-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].fecha_subida+`</div>
+                <div class="col-md-2 col-lg-2 text-center overflow-hidden ">Me gusta</div>
+                <div class="col-md-2 col-lg-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].me_gusta+`</div>
                 <div class="col-2 text-end overflow-hidden">Descargas</div>
                 <div class="col-1 bg-light shadow-sm m-1">`+listadoMisDocumentos[i].num_descargas+`</div>
               </div>
